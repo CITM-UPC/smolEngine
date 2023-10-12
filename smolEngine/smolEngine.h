@@ -5,12 +5,12 @@
 #include "types.h"
 #include "Camera.h"
 
-class MyGameEngine
+class smolEngine
 {
 public:
 	Camera camera;
 
-	MyGameEngine();
+	smolEngine();
 	void step(std::chrono::duration<double> dt);
 	void render();
 };

@@ -1,3 +1,6 @@
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -8,7 +11,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
-#include "../MyGameEngine/MyGameEngine.h"
+#if defined(IMGUI_IMPL_OPENGL_ES2)
+#include <SDL_opengles2.h>
+#endif
+
+#include "../smolEngine/smolEngine.h"
 
 using namespace std;
 using namespace chrono;
@@ -68,6 +75,7 @@ static bool processSDLEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
+        ImGui_ImplSDL2_ProcessEvent(&event);
         switch (event.type) {
         case SDL_QUIT: return false;
         case SDL_KEYDOWN:
@@ -88,7 +96,7 @@ int main(int argc, char* argv[])
         initOpenGL();
 
         {
-            MyGameEngine engine;
+            smolEngine engine;
             engine.camera.fov = 60;
             engine.camera.aspect = static_cast<double>(WINDOW_WIDTH) / WINDOW_HEIGHT;
             engine.camera.zNear = 0.1;
@@ -97,18 +105,64 @@ int main(int argc, char* argv[])
             engine.camera.center = vec3(0, 1, 0);
             engine.camera.up = vec3(0, 1, 0);
 
+            // Setup Dear ImGui context
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            ImGuiIO& io = ImGui::GetIO(); (void)io;
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;;
+
+
+            // Setup Dear ImGui style
+
+            ImGui::StyleColorsDark();
+            //ImGui::StyleColorsLight();
+
+            // Setup Platform/Renderer backends
+            ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+            ImGui_ImplOpenGL3_Init("#version 130");
+
 
             while (processSDLEvents()) {
+                // Iniciar el frame de ImGui
+                ImGui_ImplOpenGL3_NewFrame();
+                ImGui_ImplSDL2_NewFrame(window);
+                ImGui::NewFrame();
+
+                ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+                ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+
+                // Crear ventanas o paneles que se pueden acoplar
+                if (ImGui::Begin("Panel 1"), ImGuiWindowFlags_MenuBar) {
+                    // Contenido del primer panel
+                    ImGui::Text("Contenido del Panel 1");
+                    ImGui::End();
+                }
+
+                if (ImGui::Begin("Panel 2"), ImGuiWindowFlags_MenuBar) {
+                    // Contenido del segundo panel
+                    ImGui::Text("Contenido del Panel 2");
+                    ImGui::End();
+                }
+
+
                 const auto frame_start = steady_clock::now();
                 engine.step(FDT);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 engine.render();
+                ImGui::Render();
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 SDL_GL_SwapWindow(window);
                 const auto frame_end = steady_clock::now();
                 const auto frame_duration = frame_end - frame_start;
                 if (frame_duration < FDT) this_thread::sleep_for(FDT - frame_duration);
             }
         }
+
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
 
         SDL_GL_DeleteContext(gl_context);
         SDL_DestroyWindow(window);

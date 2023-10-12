@@ -1,0 +1,76 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1967,5): warning : The referenced project '..\MyGameEngine\MyGameEngine.vcxproj' does not exist.
+  Downloading https://github.com/microsoft/vcpkg-tool/releases/download/2023-09-15/vcpkg.exe -> C:\Users\usuario\Desktop\Nueva carpeta\MyGameMaker\vcpkg\vcpkg.exe... done.
+  Validating signature... done.
+  
+  versi├│n del programa de administraci├│n de paquetes vcpkg 2023-09-15-ac02a9f660977426b8ec6392919fbb1d51b10998
+  
+  Consulte LICENSE.txt para obtener informaci├│n sobre la licencia.
+  Telemetry
+  ---------
+  vcpkg collects usage data in order to help us improve your experience.
+  The data collected by Microsoft is anonymous.
+  You can opt-out of telemetry by re-running the bootstrap-vcpkg script with -disableMetrics,
+  passing --disable-metrics to vcpkg on the command line,
+  or by setting the VCPKG_DISABLE_METRICS environment variable.
+  
+  Read more about vcpkg telemetry at docs/about/privacy.md
+  Calculando plan de instalaci├│n...
+  Los siguientes paquetes ya est├ín instalados:
+      glew:x64-windows -> 2.2.0#3
+      imgui[core,sdl2-binding,opengl3-binding,docking-experimental]:x64-windows -> 1.89.9
+      opengl:x64-windows -> 2022-12-04#3
+      sdl2[core,base]:x64-windows -> 2.28.3#1
+  glew:x64-windows ya est├í instalado
+  imgui:x64-windows ya est├í instalado
+  opengl:x64-windows ya est├í instalado
+  sdl2:x64-windows ya est├í instalado
+  Tiempo total de instalaci├│n: 52.6 us
+  The package glew is compatible with built-in CMake targets:
+  
+      find_package(GLEW REQUIRED)
+      target_link_libraries(main PRIVATE GLEW::GLEW)
+  
+  imgui proporciona destinos de CMake:
+  
+    # esto se genera de forma heur├¡stica y puede que no sea correcto
+    find_package(imgui CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE imgui::imgui)
+  
+  The package opengl is compatible with built-in CMake targets via CMake v3.7 and prior syntax
+  
+      find_package(OpenGL REQUIRED)
+      target_link_libraries(main PRIVATE ${OPENGL_LIBRARIES})
+      target_include_directories(main PRIVATE ${OPENGL_INCLUDE_DIR})
+  
+  and the CMake v3.8 and beyond imported target syntax
+  
+      find_package(OpenGL REQUIRED)
+      target_link_libraries(main PRIVATE OpenGL::GL)
+  
+  introduction of various components
+  
+      find_package(OpenGL REQUIRED COMPONENTS GL      # v3.8
+                                              GLU     # v3.8
+                                              GLX     # v3.10
+                                              EGL     # v3.10
+                                              OpenGL) # v3.10
+  
+  The OpenGL SDK is highly platform dependent and is usually an OS component. It's not realistic to build from source for every platform.
+  
+      WINDOWS: is part of the Windows SDK which this package installs.
+      LINUX: the SDK may be installed from your distro's repo or from 3rd parties manually. There are too many to count.
+      APPLE: consult your distribution vendor on the state of OpenGL support: https://support.apple.com/en-us/HT202823
+  
+  sdl2 provides CMake targets:
+  
+      find_package(SDL2 CONFIG REQUIRED)
+      target_link_libraries(main
+          PRIVATE
+          $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+          $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+      )
+  
+smolEditor.obj : error LNK2019: símbolo externo "public: __cdecl smolEngine::smolEngine(void)" (??0smolEngine@@QEAA@XZ) sin resolver al que se hace referencia en la función SDL_main
+smolEditor.obj : error LNK2019: símbolo externo "public: void __cdecl smolEngine::step(class std::chrono::duration<double,struct std::ratio<1,1> >)" (?step@smolEngine@@QEAAXV?$duration@NU?$ratio@$00$00@std@@@chrono@std@@@Z) sin resolver al que se hace referencia en la función SDL_main
+smolEditor.obj : error LNK2019: símbolo externo "public: void __cdecl smolEngine::render(void)" (?render@smolEngine@@QEAAXXZ) sin resolver al que se hace referencia en la función SDL_main
+C:\Users\usuario\Desktop\Nueva carpeta\MyGameMaker\x64\Debug\smolEditor.exe : fatal error LNK1120: 3 externos sin resolver

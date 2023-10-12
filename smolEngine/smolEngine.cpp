@@ -1,4 +1,4 @@
-#include "MyGameEngine.h"
+#include "smolEngine.h"
 #include <GL\glew.h>
 #include <glm/ext/matrix_transform.hpp>
 #include <vector>
@@ -16,13 +16,13 @@ using namespace std;
 
 static double angle = 0.0;
 
-MyGameEngine::MyGameEngine() {
+smolEngine::smolEngine() {
 
     ilInit();
 
 }
 
-void MyGameEngine::step(std::chrono::duration<double> dt) {
+void smolEngine::step(std::chrono::duration<double> dt) {
     const double angle_vel = 90.0; // degrees per second
 	angle += angle_vel * dt.count();
 }
@@ -63,7 +63,7 @@ static void drawGrid(int grid_size, int grid_step) {
     glEnd();
 }
 
-void MyGameEngine::render() {
+void smolEngine::render() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
