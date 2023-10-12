@@ -14,7 +14,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{4f643650-00d5-44f6-b376-1634c6583029}</ProjectGuid>
-    <RootNamespace>MyGameEditor</RootNamespace>
+    <RootNamespace>smolEditor</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>smolEditor</ProjectName>
   </PropertyGroup>

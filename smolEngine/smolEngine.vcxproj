@@ -40,7 +40,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{0e04f5b4-d4a2-4f7b-b350-a0edcae8a446}</ProjectGuid>
-    <RootNamespace>MyGameEngine</RootNamespace>
+    <RootNamespace>smolEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>smolEngine</ProjectName>
   </PropertyGroup>
