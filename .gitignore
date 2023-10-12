@@ -2,11 +2,10 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/MyGameMaker
-/MyGameEditor/x64/Debug
+/.vs/smolGameMaker
 *.user
 /x64/Debug
 /.vs
-/MyGameEngine/x64/Debug
 /x64/Release
-/MyGameEditor/x64/Release
+/smolEditor/x64/Debug
+/smolEngine/x64/Debug
