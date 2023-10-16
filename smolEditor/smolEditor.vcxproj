@@ -96,7 +96,7 @@ $(SolutionDir)\vcpkg\vcpkg.exe install opengl glew sdl2 imgui[opengl3-binding,sd
     <ClCompile Include="smolEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyGameEngine\MyGameEngine.vcxproj">
+    <ProjectReference Include="..\smolEngine\smolEngine.vcxproj">
       <Project>{0e04f5b4-d4a2-4f7b-b350-a0edcae8a446}</Project>
     </ProjectReference>
   </ItemGroup>
