@@ -95,6 +95,9 @@ int main(int argc, char* argv[])
         auto gl_context = createSdlGlContext(window);
         initOpenGL();
 
+        // TEMP: intentando crear la demo window
+        bool showDemoWindow = true;
+
         {
             smolEngine engine;
             engine.camera.fov = 60;
@@ -132,6 +135,30 @@ int main(int argc, char* argv[])
 
                 ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
                 ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+
+
+                // TEMP: intentando crear la demo window
+                if (showDemoWindow)
+                    ImGui::ShowDemoWindow(&showDemoWindow);
+
+                static float f = 0.0f;
+                static int counter = 0;
+
+                if (ImGui::Begin("Hello, world!"), ImGuiWindowFlags_MenuBar)
+                {
+                    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+                    ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our window open/close state
+                    ImGui::Checkbox("Another Window", &showDemoWindow);
+                    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+
+                    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+                        counter++;
+                    ImGui::SameLine();
+                    ImGui::Text("counter = %d", counter);
+
+                    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+                    ImGui::End();
+                }
 
                 // Crear ventanas o paneles que se pueden acoplar
                 if (ImGui::Begin("Panel 1"), ImGuiWindowFlags_MenuBar) {
