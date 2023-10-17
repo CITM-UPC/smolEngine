@@ -29,6 +29,9 @@
 *.a
 *.lib
 
+# Imgui debug files
+*.ini
+
 # Executables
 *.exe
 *.out
