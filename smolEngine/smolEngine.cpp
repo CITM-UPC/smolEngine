@@ -79,6 +79,9 @@ void smolEngine::render() {
     
     
 #pragma region Draw Sandbox
+
+    //things missing here
+
     auto cubeDraw = make_shared<CubeImmediateMode>();
     GraphicObject cubeA(cubeDraw);
     GraphicObject cubeB(cubeDraw);

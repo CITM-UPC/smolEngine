@@ -30,10 +30,33 @@ Texture2D::Texture2D(const std::string& path) {
     ilDeleteImage(img);
 }
 
+Texture2D::Texture2D(Texture2D&& tex) noexcept : _id(tex._id) {
+    tex._id = 0;
+}
+
 Texture2D::~Texture2D() {
-    glDeleteTextures(1, &_id);
+    if (_id) glDeleteTextures(1, &_id);
 }
 
 void Texture2D::bind() const {
     glBindTexture(GL_TEXTURE_2D, _id);
 }
+
+static Texture2D loadImage(const std::string& path) {
+    Texture2D tex(path);
+    return tex;
+}
+
+//static void testImages() {
+//    Texture2D::Ptr texA_ptr = make_shared<Texture2D>(loadImage("Lenna.png"));
+//    Texture2D::Ptr texB_ptr = texA_ptr;
+//
+//    Texture2D texA("Lenna.png");    
+//    Texture2D texB = loadImage("Lenna.png");
+//
+//    //texA_id = 0;
+//
+//
+//    texA.bind();
+//
+//}
