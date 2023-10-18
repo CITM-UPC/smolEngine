@@ -10,6 +10,8 @@
 #include "CubeInterleavedVBO.h"
 #include "CubeWireframeIVBO.h"
 
+#include "Mesh.h"
+
 #include "GraphicObject.h"
 
 using namespace std;
@@ -24,7 +26,7 @@ smolEngine::smolEngine() {
 
 void smolEngine::step(std::chrono::duration<double> dt) {
     const double angle_vel = 90.0; // degrees per second
-	angle += angle_vel * dt.count();
+    angle += angle_vel * dt.count();
 }
 
 static void drawAxis() {
@@ -50,15 +52,15 @@ static void drawGrid(int grid_size, int grid_step) {
     for (int i = -grid_size; i <= grid_size; i += grid_step) {
         //XY plane
         glVertex2i(i, -grid_size);
-        glVertex2i(i,  grid_size);
+        glVertex2i(i, grid_size);
         glVertex2i(-grid_size, i);
-        glVertex2i( grid_size, i);
+        glVertex2i(grid_size, i);
 
         //XZ plane
         glVertex3i(i, 0, -grid_size);
         glVertex3i(i, 0, grid_size);
         glVertex3i(-grid_size, 0, i);
-        glVertex3i( grid_size, 0, i);
+        glVertex3i(grid_size, 0, i);
     }
     glEnd();
 }
@@ -70,34 +72,18 @@ void smolEngine::render() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt( camera.eye.x, camera.eye.y, camera.eye.z,
+    gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z,
         camera.center.x, camera.center.y, camera.center.z,
         camera.up.x, camera.up.y, camera.up.z);
 
     drawGrid(100, 1);
     drawAxis();
-    
-    
+
 #pragma region Draw Sandbox
-
-    //things missing here
-
-    auto cubeDraw = make_shared<CubeImmediateMode>();
-    GraphicObject cubeA(cubeDraw);
-    GraphicObject cubeB(cubeDraw);
-    GraphicObject cubeC(cubeDraw);
-
-    cubeA.addChild(&cubeB);
-    cubeB.addChild(&cubeC);
-    cubeB.pos().y = 2.5;
-    cubeC.pos().x = 2.5;
-    
-    cubeA.rotate(glm::radians(angle), vec3(0, 1, 0));
-    cubeB.rotate(glm::radians(angle), vec3(1, 0, 0));
-    cubeC.rotate(glm::radians(angle), vec3(0, 0, 1));
-
-    cubeA.paint();
-
+    static auto mesh_ptrs = Mesh::loadFromFile("BakerHouse.fbx");
+    for (auto& mesh_ptr : mesh_ptrs) mesh_ptr->draw();
 #pragma endregion
-    assert(glGetError() ==GL_NONE);
+
+
+    assert(glGetError() == GL_NONE);
 }

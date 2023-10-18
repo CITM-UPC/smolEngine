@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <IL/il.h>
 
+#include <algorithm>
+
 using namespace std;
 
 Texture2D::Texture2D(const std::string& path) {
@@ -9,7 +11,7 @@ Texture2D::Texture2D(const std::string& path) {
     //load image data using devil
     auto img = ilGenImage();
     ilBindImage(img);
-    ilLoadImage("Lenna.png");
+    ilLoadImage(path.c_str());
     auto width = ilGetInteger(IL_IMAGE_WIDTH);
     auto height = ilGetInteger(IL_IMAGE_HEIGHT);
     auto channels = ilGetInteger(IL_IMAGE_CHANNELS);
@@ -41,22 +43,3 @@ Texture2D::~Texture2D() {
 void Texture2D::bind() const {
     glBindTexture(GL_TEXTURE_2D, _id);
 }
-
-static Texture2D loadImage(const std::string& path) {
-    Texture2D tex(path);
-    return tex;
-}
-
-//static void testImages() {
-//    Texture2D::Ptr texA_ptr = make_shared<Texture2D>(loadImage("Lenna.png"));
-//    Texture2D::Ptr texB_ptr = texA_ptr;
-//
-//    Texture2D texA("Lenna.png");    
-//    Texture2D texB = loadImage("Lenna.png");
-//
-//    //texA_id = 0;
-//
-//
-//    texA.bind();
-//
-//}
