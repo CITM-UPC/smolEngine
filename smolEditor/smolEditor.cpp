@@ -97,6 +97,7 @@ int main(int argc, char* argv[])
 
         // TEMP: intentando crear la demo window
         bool showDemoWindow = true;
+        ImVec4 bg_color = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);
 
         {
             smolEngine engine;
@@ -114,7 +115,8 @@ int main(int argc, char* argv[])
             ImGuiIO& io = ImGui::GetIO(); (void)io;
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
             io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;;
+            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+            io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
 
             // Setup Dear ImGui style
@@ -122,12 +124,41 @@ int main(int argc, char* argv[])
             ImGui::StyleColorsDark();
             //ImGui::StyleColorsLight();
 
+
+
+            // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+            ImGuiStyle& style = ImGui::GetStyle();
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                style.WindowRounding = 0.0f;
+                style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+            }
+
+
             // Setup Platform/Renderer backends
             ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
             ImGui_ImplOpenGL3_Init("#version 130");
 
 
-            while (processSDLEvents()) {
+
+            // Main loop
+            bool done = false;
+
+            while (!done) {
+
+                SDL_Event event;
+                while (SDL_PollEvent(&event))
+                {
+                    ImGui_ImplSDL2_ProcessEvent(&event);
+                    if (event.type == SDL_QUIT)
+                        done = true;
+                    if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+                        done = true;
+                }
+
+
+
+
                 // Iniciar el frame de ImGui
                 ImGui_ImplOpenGL3_NewFrame();
                 ImGui_ImplSDL2_NewFrame(window);
@@ -173,13 +204,31 @@ int main(int argc, char* argv[])
                     ImGui::End();
                 }
 
-
                 const auto frame_start = steady_clock::now();
                 engine.step(FDT);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
                 engine.render();
                 ImGui::Render();
+                glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+                glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);
+                /*glClear(GL_COLOR_BUFFER_BIT);*/
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
+
+                // Update and Render additional Platform Windows
+                // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+                //  For this specific demo app we could also call SDL_GL_MakeCurrent(window, gl_context) directly)
+                if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+                {
+                    SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+                    SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+                    ImGui::UpdatePlatformWindows();
+                    ImGui::RenderPlatformWindowsDefault();
+                    SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+                }
+
+
                 SDL_GL_SwapWindow(window);
                 const auto frame_end = steady_clock::now();
                 const auto frame_duration = frame_end - frame_start;
