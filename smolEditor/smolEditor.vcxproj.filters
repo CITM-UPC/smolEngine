@@ -7,27 +7,13 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{ccc266a8-acc3-4795-97d0-c5cc897dc9ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Modules">
+      <UniqueIdentifier>{7d0371da-399b-4e32-baa0-93bd4e73c04c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="smolEditor.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Core</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
