@@ -23,6 +23,40 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 // Destructor
 Application::~Application() = default;
 
+void Application::Run()
+{
+	while (state != AppState::QUIT)
+	{
+		switch (state)
+		{
+		case AppState::CREATE:
+			if (Start())
+				state = AppState::UPDATE;
+			else
+				state = AppState::END;
+			break;
+
+		case AppState::UPDATE:
+			if (!Update())
+				state = AppState::END;
+			break;
+
+		case AppState::END:
+			if (CleanUp())
+				state = AppState::QUIT;
+			else
+				state = AppState::FAIL;
+			break;
+
+		case AppState::FAIL:
+			//Log errors
+			state = AppState::QUIT;
+			break;
+
+		}
+	}
+}
+
 void Application::AddModuleFront(Module * module)
 {
 	module->Init();

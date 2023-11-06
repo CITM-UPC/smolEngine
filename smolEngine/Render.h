@@ -27,10 +27,12 @@ public:
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();
 
-public:
+private:
+	void drawAxis();
 
-	SDL_Renderer* renderer;
-	SDL_Rect camera;
-	SDL_Rect viewport;
-	SDL_Color background;
+	void drawGrid(int grid_size, int grid_step);
+
+public:
+	bool vsync;
+	SDL_GLContext gl_context;
 };

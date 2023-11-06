@@ -87,6 +87,9 @@
     <ClInclude Include="ImguiEnabler.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="smolEngine.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="ImguiEnabler.cpp">
       <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

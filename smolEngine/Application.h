@@ -9,6 +9,14 @@
 #include "ImguiEnabler.h"
 #include "Render.h"
 
+enum class AppState
+{
+	CREATE,
+	UPDATE,
+	END,
+	FAIL,
+	QUIT
+};
 
 class Application
 {
@@ -82,6 +90,8 @@ private:
 	float secondsSinceStartup = 0.0f;
 
 	uint32 maxFrameDuration = 0;
+
+	AppState state;
 };
 
 extern Application* app;

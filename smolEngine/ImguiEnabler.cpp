@@ -44,8 +44,8 @@ bool ImguiEnabler::Start()
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
 
-	ImGui_ImplSDL2_InitForOpenGL(app->win->window, gl_context);
-	ImGui_ImplOpenGL3_Init("#version 130");
+	ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
+	ImGui_ImplOpenGL3_Init();
 
 	return ret;
 }

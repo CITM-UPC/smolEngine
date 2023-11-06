@@ -174,11 +174,11 @@ int main(int argc, char* argv[])
 
                 const auto frame_start = steady_clock::now();
                 engine.step(FDT);
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+               /* glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);*/
                 engine.render();
                 /*ImGui::Render();*/
-                glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-                glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);
+               /* glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+                glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);*/
                 /*glClear(GL_COLOR_BUFFER_BIT);*/
                 //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
