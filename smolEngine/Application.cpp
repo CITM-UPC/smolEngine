@@ -30,7 +30,10 @@ void Application::Run()
 		{
 		case AppState::CREATE:
 			if (Start())
+			{
+				ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
 				state = AppState::UPDATE;
+			}
 			else
 				state = AppState::END;
 			break;

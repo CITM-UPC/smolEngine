@@ -12,6 +12,9 @@ public:
 	// Destructor
 	virtual ~Window();
 
+	// Called when adding the modules to the application (cannot use app->)
+	bool Init();
+
 	// Called before render is available
 	bool Start();
 

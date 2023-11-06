@@ -17,14 +17,16 @@ Input::~Input()
 {
 	RELEASE(keyboard);
 }
+bool Input::Init()
+{
+	return true;
+}
 // Called before the first frame
 bool Input::Start()
 {
 	bool ret = true;
 
 	LOG("Init SDL input event system");
-
-	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{

@@ -8,7 +8,7 @@ public:
 	Module(bool startEnabled = false) : active(startEnabled)
 	{}
 
-	bool Init()
+	virtual bool Init()
 	{
 		return true;
 	}

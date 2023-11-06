@@ -25,7 +25,6 @@
     <ClInclude Include="ImguiEnabler.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="PerfTimer.h" />

@@ -13,10 +13,8 @@ Window::~Window()
 {
 }
 
-// Called before render is available
-bool Window::Start()
+bool Window::Init()
 {
-	//LOG("Init SDL window & surface");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -77,6 +75,15 @@ bool Window::Start()
 			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
+	return ret;
+}
+
+// Called before render is available
+bool Window::Start()
+{
+	//LOG("Init SDL window & surface");
+	bool ret = true;
+
 
 	return ret;
 }

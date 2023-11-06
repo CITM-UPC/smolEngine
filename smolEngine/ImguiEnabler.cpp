@@ -6,18 +6,6 @@
 
 ImguiEnabler::ImguiEnabler(bool startEnabled) : Module(startEnabled)
 {
-}
-
-// Destructor
-ImguiEnabler::~ImguiEnabler()
-{
-}
-
-// Called before render is available
-bool ImguiEnabler::Start()
-{
-	//LOG("Init Imgui Enabler");
-	bool ret = true;
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -43,9 +31,24 @@ bool ImguiEnabler::Start()
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
+}
 
-	ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
-	ImGui_ImplOpenGL3_Init();
+// Destructor
+ImguiEnabler::~ImguiEnabler()
+{
+}
+
+bool ImguiEnabler::Init()
+{
+	ImGui_ImplOpenGL3_Init("#version 130");
+	return true;
+}
+
+// Called before render is available
+bool ImguiEnabler::Start()
+{
+	//LOG("Init Imgui Enabler");
+	bool ret = true;
 
 	return ret;
 }

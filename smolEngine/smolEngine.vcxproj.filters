@@ -54,9 +54,6 @@
     <ClInclude Include="Camera.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Core</Filter>
     </ClInclude>

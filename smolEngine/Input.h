@@ -36,6 +36,9 @@ public:
 	// Destructor
 	virtual ~Input();
 
+	// Called when adding the modules to the application (cannot use app->)
+	bool Init();
+
 	// Called before the first frame
 	bool Start();
 

@@ -11,6 +11,9 @@ public:
 	// Destructor
 	virtual ~ImguiEnabler();
 
+	// Called when adding the modules to the application (cannot use app->)
+	bool Init();
+
 	// Called before render is available
 	bool Start();
 

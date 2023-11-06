@@ -21,10 +21,12 @@ Application* CreateApplication(int argc, char** argv)
     return new smolEditorApp(argc, argv);
 }
 
+Application* app = NULL;
+
 int main(int argc, char** argv)
 {
 
-    auto app = CreateApplication(argc, argv);
+    app = CreateApplication(argc, argv);
     app->Run();
 
     delete app;

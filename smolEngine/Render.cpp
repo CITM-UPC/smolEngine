@@ -1,5 +1,6 @@
 #include "Render.h"
 #include "Application.h"
+#include "Window.h"
 #include "Defs.h"
 #include <GL/glew.h>
 #include <IL/il.h>
@@ -23,6 +24,24 @@ Render::Render(bool startEnabled) : Module(startEnabled)
 Render::~Render()
 {}
 
+bool Render::Init()
+{
+
+	if (vsync && SDL_GL_SetSwapInterval(1) != 0)
+	{
+		//Log error
+	}
+	ilInit();
+	glewInit();
+
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	glClearColor(1, 1, 1, 1);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
+	return true;
+}
+
 // Called before the first frame
 bool Render::Start()
 {
@@ -33,21 +52,6 @@ bool Render::Start()
 	{
 		return false;
 	}
-
-	if (vsync && SDL_GL_SetSwapInterval(1) != 0)
-	{
-		//Log error
-	}
-
-
-	ilInit();
-	glewInit();
-
-	glViewport(0, 0, app->win->width, app->win->height);
-	glClearColor(1, 1, 1, 1);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
 	return true;
 }
 

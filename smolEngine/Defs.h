@@ -11,9 +11,9 @@
 
 // General config
 
-#define WINDOW_WIDTH 1280;
-#define WINDOW_HEIGHT 720;
-#define FPS 60;
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+#define FPS 60
 //static const auto FDT = 1.0s / FPS;
 #define WINDOW_TITLE "smolEngine"
 #define FULLSCREEN false
