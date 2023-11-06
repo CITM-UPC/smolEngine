@@ -2,8 +2,8 @@
 
 #include "Module.h"
 #include "Camera.h"
-#include "SDL2/SDL.h"
 #include "imgui.h"
+#include "SDL2/SDL.h"
 #include "Defs.h"
 #include <glm/gtc/type_ptr.hpp>
 
