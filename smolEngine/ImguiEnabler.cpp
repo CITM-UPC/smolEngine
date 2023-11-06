@@ -67,6 +67,8 @@ void ImguiEnabler::BeginUI()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(app->win->window);
 	ImGui::NewFrame();
+	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+	ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 	//ImGuizmo::BeginFrame();
 }
 

@@ -7,17 +7,16 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 	frames = 0;
 	timer = Timer();
 
-	/*win = eastl::make_unique<Window>(true);
-	input = eastl::make_unique<Input>(true);
-	render = eastl::make_unique<Render>(true);*/
+	win = std::make_unique<Window>(true);
+	//input = eastl::make_unique<Input>(true);
+	render = std::make_unique<Render>(true);
+	imgui = std::make_unique<ImguiEnabler>(true);
 
-	// Ordered for awake / Start / Update
-	// Reverse order of CleanUp
-	//AddModule(win.get());
-	//AddModule(input.get());
-	// 
-	//// Render last to swap buffer
-	//AddModule(render.get());
+	// Ordered, render is the last to execute
+	AddModuleFront(render.get());
+	AddModuleFront(imgui.get());
+	//AddModuleFront(input.get());
+	AddModuleFront(win.get());
 }
 
 // Destructor
@@ -152,7 +151,7 @@ void Application::FinishUpdate()
 
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "Breaking Cats Alpha | FPS: %i, Av.FPS: %.2f, Last-frame MS (dt): %.3f, vsync: %s",
+	sprintf_s(title, 256, "Engine | FPS: %i, Av.FPS: %.2f, Last-frame MS (dt): %.3f, vsync: %s",
 		framesPerSecond, averageFps, dt, frcap ? "on" : "off");
 
 

@@ -16,6 +16,7 @@
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = true;
+	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
 }
 
 // Destructor
@@ -42,6 +43,10 @@ bool Render::Start()
 	ilInit();
 	glewInit();
 
+	glViewport(0, 0, app->win->width, app->win->height);
+	glClearColor(1, 1, 1, 1);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 
 	return true;
 }
@@ -50,11 +55,7 @@ bool Render::Start()
 bool Render::PreUpdate()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	return true;
-}
 
-bool Render::Update(float dt)
-{
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
@@ -65,39 +66,20 @@ bool Render::Update(float dt)
 		camera.center.x, camera.center.y, camera.center.z,
 		camera.up.x, camera.up.y, camera.up.z);
 
+	return true;
+}
+
+bool Render::Update(float dt)
+{
 	drawGrid(100, 1);
 	drawAxis();
 
-
-#pragma region Draw Sandbox
-
-	//things missing here
-	//things missing here
-
-	auto cubeDraw = make_shared<CubeImmediateMode>();
-	GraphicObject cubeA(cubeDraw);
-	GraphicObject cubeB(cubeDraw);
-	GraphicObject cubeC(cubeDraw);
-
-	cubeA.addChild(&cubeB);
-	cubeB.addChild(&cubeC);
-	cubeB.pos().y = 2.5;
-	cubeC.pos().x = 2.5;
-
-	cubeA.rotate(glm::radians(angle), vec3(0, 1, 0));
-	cubeB.rotate(glm::radians(angle), vec3(1, 0, 0));
-	cubeC.rotate(glm::radians(angle), vec3(0, 0, 1));
-
-	cubeA.paint();
-
-#pragma endregion
 	assert(glGetError() == GL_NONE);
 	return true;
 }
 
 bool Render::PostUpdate()
 {
-	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
 	glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);
 	return true;
 }
@@ -105,25 +87,15 @@ bool Render::PostUpdate()
 // Called before quitting
 bool Render::CleanUp()
 {
-	//LOG("Destroying SDL render");
+	LOG("Destroying SDL render");
 
-	SDL_DestroyRenderer(renderer);
+	SDL_GL_DeleteContext(gl_context);
 	return true;
 }
 
-void Render::SetBackgroundColor(SDL_Color color)
+void Render::SetBackgroundColor(ImVec4 color)
 {
-	background = color;
-}
-
-void Render::SetViewPort(const SDL_Rect& rect)
-{
-	SDL_RenderSetViewport(renderer, &rect);
-}
-
-void Render::ResetViewPort()
-{
-	SDL_RenderSetViewport(renderer, &viewport);
+	bg_color = color;
 }
 
 void Render::drawAxis()

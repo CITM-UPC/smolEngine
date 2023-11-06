@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Module.h"
+#include "Camera.h"
 #include "SDL2/SDL.h"
+#include "imgui.h"
+#include "Defs.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class Render : public Module
@@ -24,8 +27,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void SetViewPort(const SDL_Rect& rect);
-	void ResetViewPort();
+	void SetBackgroundColor(ImVec4 color);
 
 private:
 	void drawAxis();
@@ -33,6 +35,8 @@ private:
 	void drawGrid(int grid_size, int grid_step);
 
 public:
+	Camera camera;
+	ImVec4 bg_color;
 	bool vsync;
 	SDL_GLContext gl_context;
 };

@@ -7,6 +7,19 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include "Log.h"
+
+// General config
+
+#define WINDOW_WIDTH 1280;
+#define WINDOW_HEIGHT 720;
+#define FPS 60;
+//static const auto FDT = 1.0s / FPS;
+#define WINDOW_TITLE "smolEngine"
+#define FULLSCREEN false
+#define FULLSCREEN_WINDOW false
+#define BORDERLESS false
+#define RESIZABLE false
 
 //  NULL just in case ----------------------
 
@@ -70,15 +83,4 @@ inline const char* const PATH(const char* folder, const char* file)
 #define PERF_START(timer) timer.Start()
 #define PERF_PEEK(timer) LOG("%s took %f ms", __FUNCTION__, timer.ReadMs())
 
-// General config
-
-#define WINDOW_WIDTH 1280;
-#define WINDOW_HEIGHT 720;
-#define FPS 60;
-//static const auto FDT = 1.0s / FPS;
-#define WINDOW_TITLE "smolEngine"
-#define FULLSCREEN false
-#define FULLSCREEN_WINDOW false
-#define BORDERLESS false
-#define RESIZABLE false
 

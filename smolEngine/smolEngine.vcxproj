@@ -29,10 +29,9 @@
     <ClInclude Include="Module.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Render.h" />
-    <ClInclude Include="smolEngine.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="types.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +49,6 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Render.cpp" />
-    <ClCompile Include="smolEngine.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />

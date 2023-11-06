@@ -64,8 +64,8 @@ int main(int argc, char* argv[])
         initOpenGL();*/
 
         // TEMP: intentando crear la demo window
-        bool showDemoWindow = true;
-        ImVec4 bg_color = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);
+        /*bool showDemoWindow = true;
+        ImVec4 bg_color = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);*/
 
         {
             smolEngine engine;
@@ -132,8 +132,8 @@ int main(int argc, char* argv[])
                 //ImGui_ImplSDL2_NewFrame(window);
                 //ImGui::NewFrame();
 
-                ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-                ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+                /*ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+                ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);*/
 
 
                 // TEMP: intentando crear la demo window
@@ -172,10 +172,10 @@ int main(int argc, char* argv[])
                 //    ImGui::End();
                 //}
 
-                const auto frame_start = steady_clock::now();
-                engine.step(FDT);
+                //const auto frame_start = steady_clock::now();
+                //engine.step(FDT);
                /* glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);*/
-                engine.render();
+                //engine.render();
                 /*ImGui::Render();*/
                /* glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
                 glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);*/
@@ -198,9 +198,9 @@ int main(int argc, char* argv[])
 
 
                 /*SDL_GL_SwapWindow(window);*/
-                const auto frame_end = steady_clock::now();
+                /*const auto frame_end = steady_clock::now();
                 const auto frame_duration = frame_end - frame_start;
-                if (frame_duration < FDT) this_thread::sleep_for(FDT - frame_duration);
+                if (frame_duration < FDT) this_thread::sleep_for(FDT - frame_duration);*/
             }
         }
 
@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
         //ImGui_ImplSDL2_Shutdown();
         //ImGui::DestroyContext();
 
-        SDL_GL_DeleteContext(gl_context);
+        //SDL_GL_DeleteContext(gl_context);
 
         return EXIT_SUCCESS;
     }

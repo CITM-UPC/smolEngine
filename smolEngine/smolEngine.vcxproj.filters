@@ -45,9 +45,6 @@
     <ClInclude Include="CubeWireframeIVBO.h">
       <Filter>3D Objects\Cube</Filter>
     </ClInclude>
-    <ClInclude Include="smolEngine.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicObject.h">
       <Filter>3D Objects</Filter>
     </ClInclude>
@@ -56,9 +53,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="types.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Core</Filter>
@@ -90,11 +84,11 @@
     <ClInclude Include="Log.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="smolEngine.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>3D Objects</Filter>
     </ClCompile>

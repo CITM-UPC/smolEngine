@@ -6,6 +6,7 @@
 
 class Window : public Module
 {
+public:
 	Window(bool startEnabled);
 
 	// Destructor
