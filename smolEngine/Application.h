@@ -8,6 +8,7 @@
 #include "Window.h"
 #include "ImguiEnabler.h"
 #include "Render.h"
+#include "Input.h"
 
 enum class AppState
 {
@@ -61,6 +62,7 @@ public:
 	// Modules
 	std::unique_ptr<Window> win;
 	std::unique_ptr<Render> render;
+	std::unique_ptr<Input> input;
 	std::unique_ptr<ImguiEnabler> imgui;
 
 	bool frcap = true;

@@ -15,5 +15,13 @@
     <ClCompile Include="smolEditor.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Editor.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

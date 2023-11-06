@@ -8,14 +8,14 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 	timer = Timer();
 
 	win = std::make_unique<Window>(true);
-	//input = eastl::make_unique<Input>(true);
+	input = std::make_unique<Input>(true);
 	render = std::make_unique<Render>(true);
 	imgui = std::make_unique<ImguiEnabler>(true);
 
 	// Ordered, render is the last to execute
 	AddModuleFront(render.get());
 	AddModuleFront(imgui.get());
-	//AddModuleFront(input.get());
+	AddModuleFront(input.get());
 	AddModuleFront(win.get());
 }
 

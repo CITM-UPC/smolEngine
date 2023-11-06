@@ -23,6 +23,7 @@
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="GraphicObject.h" />
     <ClInclude Include="ImguiEnabler.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Mesh.h" />
@@ -45,6 +46,7 @@
     <ClCompile Include="CubeWireframeIVBO.cpp" />
     <ClCompile Include="GraphicObject.cpp" />
     <ClCompile Include="ImguiEnabler.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
