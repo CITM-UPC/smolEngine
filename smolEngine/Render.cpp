@@ -17,7 +17,7 @@
 
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
-	vsync = false;
+	vsync = VSYNC;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
 
 	camera.fov = 60;

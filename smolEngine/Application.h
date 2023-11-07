@@ -74,7 +74,6 @@ public:
 	std::unique_ptr<Input> input;
 	std::unique_ptr<ImguiEnabler> imgui;
 
-	bool frcap = true;
 
 private:
 
@@ -90,6 +89,8 @@ private:
 	std::vector<float> fpsHistory;
 
 	float averageFps = 0.0f;
+
+	bool frcap = FRAMECAP;
 
 	AppState state;
 };

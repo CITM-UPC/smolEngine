@@ -124,7 +124,7 @@ void Application::FinishUpdate()
 	frameEnd = std::chrono::steady_clock::now();
 	frameDuration = frameEnd - frameStart;
 
-	if (frameDuration < Timer::dt)
+	if (frameDuration < Timer::dt && frcap)
 		std::this_thread::sleep_for(Timer::dt - frameDuration);
 
 	const auto frameEndAfterSleep = std::chrono::steady_clock::now();
@@ -132,8 +132,7 @@ void Application::FinishUpdate()
 
 
 	float lastFPS = 0.0f;
-	if(frcap)
-		lastFPS = 1.0f / (frameDurationAfterSleep.count() * 0.000000001f);
+	lastFPS = 1.0f / (frameDurationAfterSleep.count() * 0.000000001f);
 
 
 	averageFps = (averageFps + lastFPS) / 2;
@@ -144,8 +143,8 @@ void Application::FinishUpdate()
 
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "smolEngine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS (dt): %.3f, frame cap: %s",
-		lastFPS, averageFps, Timer::dt, frcap ? "on" : "off");
+	sprintf_s(title, 256, "smolEngine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS: %.3f, frame cap: %s, vsync: %s",
+		lastFPS, averageFps, frameDuration * 1000000, frcap ? "on" : "off", app->render->vsync ? "on" : "off");
 
 
 	app->win->SetTitle(title);

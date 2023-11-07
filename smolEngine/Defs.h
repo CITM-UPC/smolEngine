@@ -20,6 +20,8 @@
 #define FULLSCREEN_WINDOW false
 #define BORDERLESS false
 #define RESIZABLE false
+#define FRAMECAP false
+#define VSYNC true
 
 //  NULL just in case ----------------------
 
