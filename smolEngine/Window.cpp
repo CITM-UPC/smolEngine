@@ -34,8 +34,12 @@ bool Window::Init()
 		std::cout << "SDL Linked with " << std::to_string(linked.major) << '.' << std::to_string(linked.minor) << '.' << std::to_string(linked.patch);
 
 
-		Uint32 flags = SDL_WINDOW_SHOWN;
-		flags |= SDL_WINDOW_OPENGL;
+		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+
+		//Use OpenGL 2.1
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
 		if (FULLSCREEN) flags |= SDL_WINDOW_FULLSCREEN;
 		if (BORDERLESS) flags |= SDL_WINDOW_BORDERLESS;
 		if (RESIZABLE) flags |= SDL_WINDOW_RESIZABLE;
@@ -51,16 +55,16 @@ bool Window::Init()
 		}
 
 
-		// setup SDL window
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+		//// setup SDL window
+		//SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+		//SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-		// GL 3.1 + GLSL 130
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		//// GL 3.1 + GLSL 130
+		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 

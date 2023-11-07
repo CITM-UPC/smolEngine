@@ -27,10 +27,8 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Module.h" />
-    <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -48,10 +46,8 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

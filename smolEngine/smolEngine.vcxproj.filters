@@ -60,12 +60,6 @@
     <ClInclude Include="Defs.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PerfTimer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
@@ -119,15 +113,6 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PerfTimer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
@@ -142,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

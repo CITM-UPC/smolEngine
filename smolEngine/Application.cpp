@@ -5,8 +5,6 @@
 // Constructor
 Application::Application(int argc, char* args[]) : argc(argc), args(args)
 {
-	frames = 0;
-	timer = Timer();
 
 	win = std::make_unique<Window>(true);
 	input = std::make_unique<Input>(true);
@@ -76,9 +74,6 @@ void Application::AddModuleBack(Module* module)
 // Called before the first frame
 bool Application::Start()
 {
-	timer.Start();
-	startupTime.Start();
-	lastSecFrameTime.Start();
 
 	for (auto const& item : modules)
 	{
@@ -116,48 +111,37 @@ bool Application::Update()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	frameTime.Start();
+	frameStart = std::chrono::steady_clock::now();
 }
 
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	frameEnd = std::chrono::steady_clock::now();
+	frameDuration = frameEnd - frameStart;
 
-	frameCount++;
-	secondsSinceStartup = startupTime.ReadSec();
-	//dt = frameTime.ReadMSec();
-	dt = frameTime.ReadSec();
-	lastSecFrameCount++;
-	if (lastSecFrameTime.ReadMSec() > 1000) {
-		lastSecFrameTime.Start();
-		framesPerSecond = lastSecFrameCount;
-		lastSecFrameCount = 0;
-		// Average FPS for the whole game life
-		averageFps = (averageFps + framesPerSecond) / 2;
-	}
+	if (frameDuration < Timer::dt)
+		std::this_thread::sleep_for(Timer::dt - frameDuration);
+
+	const auto frameEndAfterSleep = std::chrono::steady_clock::now();
+	const auto frameDurationAfterSleep = frameEndAfterSleep - frameStart;
 
 
-	if (frcap)
-	{
-		float delay = float(maxFrameDuration) - dt;
+	float lastFPS = 0.0f;
+	if(frcap)
+		lastFPS = 1.0f / (frameDurationAfterSleep.count() * 0.000000001f);
 
-		PerfTimer delayTimer = PerfTimer();
-		delayTimer.Start();
-		if (maxFrameDuration > 0 && delay > 0) {
-			SDL_Delay(delay);
-			//LOG("We waited for %f milliseconds and the real delay is % f", delay, delayTimer.ReadMs());
-			//dt = maxFrameDuration;
-		}
-		else {
-			//LOG("No wait");
-		}
-	}
-	if (framesPerSecond != 0) dt = (float)(1 / (float)framesPerSecond);
+
+	averageFps = (averageFps + lastFPS) / 2;
+	fpsHistory.push_back(lastFPS);
+
+	// Replace oldest data in the history
+	if (fpsHistory.size() > 100) fpsHistory.erase(fpsHistory.begin());
 
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "Engine | FPS: %i, Av.FPS: %.2f, Last-frame MS (dt): %.3f, vsync: %s",
-		framesPerSecond, averageFps, dt, frcap ? "on" : "off");
+	sprintf_s(title, 256, "Engine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS (dt): %.3f, vsync: %s",
+		lastFPS, averageFps, Timer::dt, frcap ? "on" : "off");
 
 
 	app->win->SetTitle(title);
@@ -181,7 +165,7 @@ bool Application::DoUpdate()
 	for (auto const& m : modules)
 	{
 		if (!m->active) continue;
-		if (!m->Update(dt)) return false;
+		if (!m->Update()) return false;
 	}
 
 	return true;

@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Defs.h"
 #include <GL/glew.h>
+#include "SDL2/SDL_opengl.h"
 #include <IL/il.h>
 
 
@@ -46,19 +47,47 @@ bool Render::Start()
 	if (!gl_context)
 		return false;
 
-	if (SDL_GL_MakeCurrent(app->win->window, gl_context) != 0)
-		return false;
+	/*if (SDL_GL_MakeCurrent(app->win->window, gl_context) != 0)
+		return false;*/
 
-	if (vsync && (SDL_GL_SetSwapInterval(1) != 0))
-		return false;
+	
 
 	ilInit();
 
 	if (glewInit() != GLEW_OK)
 		return false;
 
+	if (vsync && (SDL_GL_SetSwapInterval(1) != 0))
+		return false;
+
+	//Initialize Projection Matrix
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	//Check for error
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+		return false;
+
+	//Initialize Modelview Matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	//Check for error
+	error = glGetError();
+	if (error != GL_NO_ERROR)
+		return false;
+
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glClearDepth(1.0f);
+
+	//Check for error
+	error = glGetError();
+	if (error != GL_NO_ERROR)
+		return false;
+
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	glClearColor(1, 1, 1, 1);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -69,7 +98,8 @@ bool Render::Start()
 // Called each loop iteration
 bool Render::PreUpdate()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -84,7 +114,7 @@ bool Render::PreUpdate()
 	return true;
 }
 
-bool Render::Update(float dt)
+bool Render::Update()
 {
 	return true;
 }

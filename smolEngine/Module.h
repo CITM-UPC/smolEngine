@@ -26,7 +26,7 @@ public:
 	}
 
 	// Called each loop iteration
-	virtual bool Update(float dt)
+	virtual bool Update()
 	{
 		return true;
 	}

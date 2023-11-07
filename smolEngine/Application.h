@@ -1,14 +1,23 @@
 #pragma once
 #include "Module.h"
 #include "Defs.h"
-#include "Timer.h"
-#include "PerfTimer.h"
+#include <chrono>
+#include <thread>
 
 //Modules
 #include "Window.h"
 #include "ImguiEnabler.h"
 #include "Render.h"
 #include "Input.h"
+
+namespace Timer
+{
+	using namespace std;
+	using namespace chrono;
+
+	static const unsigned int targetFPS = 60;
+	static const auto dt = 1.0s / targetFPS;
+}
 
 enum class AppState
 {
@@ -74,24 +83,13 @@ private:
 
 	std::list<Module*> modules;
 
-	unsigned int frames = 0;
-	float dt = 0;
+	Timer::steady_clock::time_point frameStart;
+	Timer::steady_clock::time_point frameEnd;
+	Timer::nanoseconds frameDuration;
 
-	Timer timer;
-	PerfTimer ptimer;
-
-	Timer startupTime;
-	Timer frameTime;
-	Timer lastSecFrameTime;
-
-	uint64 frameCount = 0;
-	uint32 framesPerSecond = 0;
-	uint32 lastSecFrameCount = 0;
+	std::vector<float> fpsHistory;
 
 	float averageFps = 0.0f;
-	float secondsSinceStartup = 0.0f;
-
-	uint32 maxFrameDuration = 0;
 
 	AppState state;
 };
