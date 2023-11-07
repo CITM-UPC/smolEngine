@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <SDL2/SDL_timer.h>
+#include <imgui_impl_opengl3.h>
 
 // Constructor
 Application::Application(int argc, char* args[]) : argc(argc), args(args)
@@ -32,6 +33,7 @@ void Application::Run()
 			if (Start())
 			{
 				ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
+				ImGui_ImplOpenGL3_Init("#version 130");
 				state = AppState::UPDATE;
 			}
 			else
@@ -168,7 +170,7 @@ bool Application::PreUpdate()
 	{
 		if (!m->active) continue;
 		if (!m->PreUpdate()) return false;
-	}
+}
 
 	return true;
 }

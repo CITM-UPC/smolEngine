@@ -137,8 +137,6 @@ bool Input::PreUpdate()
 bool Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
-	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
-	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 
 	return true;

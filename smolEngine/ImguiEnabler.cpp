@@ -6,6 +6,16 @@
 
 ImguiEnabler::ImguiEnabler(bool startEnabled) : Module(startEnabled)
 {
+}
+
+// Destructor
+ImguiEnabler::~ImguiEnabler()
+{
+}
+
+bool ImguiEnabler::Init()
+{
+
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -20,7 +30,6 @@ ImguiEnabler::ImguiEnabler(bool startEnabled) : Module(startEnabled)
 	// Setup Dear ImGui style
 
 	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsLight();
 
 
 
@@ -31,16 +40,7 @@ ImguiEnabler::ImguiEnabler(bool startEnabled) : Module(startEnabled)
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
-}
 
-// Destructor
-ImguiEnabler::~ImguiEnabler()
-{
-}
-
-bool ImguiEnabler::Init()
-{
-	ImGui_ImplOpenGL3_Init("#version 130");
 	return true;
 }
 
@@ -48,6 +48,7 @@ bool ImguiEnabler::Init()
 bool ImguiEnabler::Start()
 {
 	//LOG("Init Imgui Enabler");
+
 	bool ret = true;
 
 	return ret;
@@ -70,6 +71,7 @@ void ImguiEnabler::BeginUI()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(app->win->window);
 	ImGui::NewFrame();
+
 	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(10.0f, 10.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 	//ImGuizmo::BeginFrame();

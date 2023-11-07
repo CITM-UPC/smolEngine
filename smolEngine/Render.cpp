@@ -18,6 +18,14 @@ Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = true;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
+
+	camera.fov = 60;
+	camera.aspect = static_cast<double>(WINDOW_WIDTH) / WINDOW_HEIGHT;
+	camera.zNear = 0.1;
+	camera.zFar = 100;
+	camera.eye = vec3(5, 1.75, 5);
+	camera.center = vec3(0, 1, 0);
+	camera.up = vec3(0, 1, 0);
 }
 
 // Destructor
@@ -27,18 +35,6 @@ Render::~Render()
 bool Render::Init()
 {
 
-	if (vsync && SDL_GL_SetSwapInterval(1) != 0)
-	{
-		//Log error
-	}
-	ilInit();
-	glewInit();
-
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	glClearColor(1, 1, 1, 1);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
 	return true;
 }
 
@@ -47,11 +43,26 @@ bool Render::Start()
 {
 	//LOG("render start");
 	gl_context = SDL_GL_CreateContext(app->win->window);
-	SDL_GL_MakeCurrent(app->win->window, gl_context);
-	if (gl_context == NULL)
-	{
+	if (!gl_context)
 		return false;
-	}
+
+	if (SDL_GL_MakeCurrent(app->win->window, gl_context) != 0)
+		return false;
+
+	if (vsync && (SDL_GL_SetSwapInterval(1) != 0))
+		return false;
+
+	ilInit();
+
+	if (glewInit() != GLEW_OK)
+		return false;
+
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	glClearColor(1, 1, 1, 1);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
+
 	return true;
 }
 
@@ -75,16 +86,15 @@ bool Render::PreUpdate()
 
 bool Render::Update(float dt)
 {
-	drawGrid(100, 1);
-	drawAxis();
-
-	assert(glGetError() == GL_NONE);
 	return true;
 }
 
 bool Render::PostUpdate()
 {
-	glClearColor(bg_color.x * bg_color.w, bg_color.y * bg_color.w, bg_color.z * bg_color.w, bg_color.w);
+	drawGrid(100, 1);
+	drawAxis();
+
+	assert(glGetError() == GL_NONE);
 	return true;
 }
 

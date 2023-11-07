@@ -41,5 +41,5 @@ public:
 	Camera camera;
 	ImVec4 bg_color;
 	bool vsync;
-	SDL_GLContext gl_context;
+	SDL_GLContext gl_context = NULL;
 };
