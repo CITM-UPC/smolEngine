@@ -21,7 +21,7 @@ namespace Timer
 
 enum class AppState
 {
-	CREATE,
+	CREATE = 0,
 	UPDATE,
 	END,
 	FAIL,

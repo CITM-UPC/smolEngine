@@ -17,7 +17,7 @@
 
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
-	vsync = true;
+	vsync = false;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
 
 	camera.fov = 60;
@@ -101,15 +101,7 @@ bool Render::PreUpdate()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z,
-		camera.center.x, camera.center.y, camera.center.z,
-		camera.up.x, camera.up.y, camera.up.z);
+	
 
 	return true;
 }
@@ -121,6 +113,16 @@ bool Render::Update()
 
 bool Render::PostUpdate()
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z,
+		camera.center.x, camera.center.y, camera.center.z,
+		camera.up.x, camera.up.y, camera.up.z);
+
 	drawGrid(100, 1);
 	drawAxis();
 

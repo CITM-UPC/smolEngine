@@ -5,6 +5,7 @@
 // Constructor
 Application::Application(int argc, char* args[]) : argc(argc), args(args)
 {
+	state = AppState::CREATE;
 
 	win = std::make_unique<Window>(true);
 	input = std::make_unique<Input>(true);
@@ -29,11 +30,7 @@ void Application::Run()
 		{
 		case AppState::CREATE:
 			if (Start())
-			{
-				ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
-				ImGui_ImplOpenGL3_Init("#version 130");
 				state = AppState::UPDATE;
-			}
 			else
 				state = AppState::END;
 			break;
@@ -51,7 +48,7 @@ void Application::Run()
 			break;
 
 		case AppState::FAIL:
-			//Log errors
+			//TODO: Log errors
 			state = AppState::QUIT;
 			break;
 
@@ -81,6 +78,10 @@ bool Application::Start()
 			if (!item->Start())
 				return false;
 	}
+
+	ImGui_ImplSDL2_InitForOpenGL(app->win->window, app->render->gl_context);
+	ImGui_ImplOpenGL3_Init("#version 130");
+
 	//LOG("----------------- Time Start(): %f", timer.ReadMSec());
 
 	return true;
@@ -103,6 +104,9 @@ bool Application::Update()
 
 	if (ret == true)
 		ret = PostUpdate();
+
+	if (ret == true)
+		ret = RenderUI();
 
 	FinishUpdate();
 	return ret;
@@ -140,7 +144,7 @@ void Application::FinishUpdate()
 
 	// Shows the time measurements in the window title
 	static char title[256];
-	sprintf_s(title, 256, "Engine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS (dt): %.3f, vsync: %s",
+	sprintf_s(title, 256, "smolEngine | FPS: %.2f, Av.FPS: %.2f, Last-frame MS (dt): %.3f, frame cap: %s",
 		lastFPS, averageFps, Timer::dt, frcap ? "on" : "off");
 
 
