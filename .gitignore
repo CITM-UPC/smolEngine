@@ -40,8 +40,6 @@
 *.user
 /x64/Debug
 /.vs
-/smolEditor
-/smolEngine
 /x64/Release
 /smolEditor/x64/Debug
 /smolEngine/x64/Debug
