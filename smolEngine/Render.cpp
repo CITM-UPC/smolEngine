@@ -131,7 +131,6 @@ bool Render::PostUpdate()
 	drawGrid(100, 1);
 	drawAxis();
 
-	SDL_GL_SwapWindow(app->win->window);
 
 	
 

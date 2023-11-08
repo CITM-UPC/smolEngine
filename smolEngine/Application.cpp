@@ -15,10 +15,10 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 
 	// Ordered, render is the last to execute
 	AddModuleFront(render.get());
+	AddModuleFront(camera.get());
 	AddModuleFront(imgui.get());
 	AddModuleFront(input.get());
 	AddModuleFront(win.get());
-	AddModuleFront(camera.get());
 }
 
 // Destructor
