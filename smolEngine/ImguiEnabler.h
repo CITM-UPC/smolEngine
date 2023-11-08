@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.h"
+#include "Imgui.h"
 
 class ImguiEnabler : public Module
 {
@@ -24,6 +25,5 @@ public:
 	void EndUI();
 
 private:
-	
 
 };

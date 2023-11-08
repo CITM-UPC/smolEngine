@@ -2,10 +2,13 @@
 
 #include "Module.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "imgui.h"
 #include "SDL2/SDL.h"
 #include "Defs.h"
 #include <glm/gtc/type_ptr.hpp>
+
+#include "GameObject.h"
 
 class Render : public Module
 {
@@ -38,6 +41,9 @@ private:
 	void drawGrid(int grid_size, int grid_step);
 
 public:
+
+	std::unique_ptr<GameObject> root;
+
 	Camera camera;
 	ImVec4 bg_color;
 	bool vsync;

@@ -20,6 +20,7 @@
     <ClInclude Include="CubeVertexBuffer.h" />
     <ClInclude Include="CubeWireframeIVBO.h" />
     <ClInclude Include="Defs.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="GraphicObject.h" />
     <ClInclude Include="ImguiEnabler.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="CubeVertexArray.cpp" />
     <ClCompile Include="CubeVertexBuffer.cpp" />
     <ClCompile Include="CubeWireframeIVBO.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicObject.cpp" />
     <ClCompile Include="ImguiEnabler.cpp" />
     <ClCompile Include="Input.cpp" />

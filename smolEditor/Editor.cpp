@@ -13,6 +13,10 @@ Editor::~Editor()
 bool Editor::Start()
 {
 	//LOG("render start");
+	about = std::make_unique<AboutPanel>(this);
+
+
+	panels.push_back(about.get());
 
 	return true;
 }
@@ -31,6 +35,16 @@ bool Editor::Update(float dt)
 
 bool Editor::PostUpdate()
 {
+	return true;
+}
+
+bool Editor::OnRenderUI()
+{
+	for (auto const& panel : panels)
+	{
+		panel->Draw();
+	}
+
 	return true;
 }
 
