@@ -16,7 +16,7 @@ public:
 
 	void Draw();
 
-	void Rotate(double rads, const vec3& axis);
+	void Rotate(double rads, const dvec3& axis);
 
 	/*void generateId()
 	{

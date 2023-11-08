@@ -93,7 +93,7 @@ bool Render::Start()
 
 	root = std::make_unique<GameObject>("Assets/BakerHouse.fbx", "Baker House");
 
-	root->Rotate(1.2, vec3(0, 0, 1));
+	root->Rotate(1.2, dvec3(0, 0, 1));
 
 
 	return true;

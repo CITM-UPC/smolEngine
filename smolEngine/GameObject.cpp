@@ -37,7 +37,7 @@ void GameObject::Draw()
 		root->paint();
 }
 
-void GameObject::Rotate(double rads, const vec3& axis)
+void GameObject::Rotate(double rads, const dvec3& axis)
 {
 	root->rotate(rads, axis);
 }
