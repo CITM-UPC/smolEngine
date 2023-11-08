@@ -6,7 +6,6 @@
 #include "SDL2/SDL_opengl.h"
 #include <IL/il.h>
 
-
 #include "CubeImmediateMode.h"
 #include "CubeVertexArray.h"
 #include "CubeVertexBuffer.h"
@@ -19,14 +18,6 @@ Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = VSYNC;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
-
-	camera.fov = 60;
-	camera.aspect = static_cast<double>(WINDOW_WIDTH) / WINDOW_HEIGHT;
-	camera.zNear = 0.1;
-	camera.zFar = 100;
-	camera.eye = vec3(5, 1.75, 5);
-	camera.center = vec3(0, 1, 0);
-	camera.up = vec3(0, 1, 0);
 }
 
 // Destructor
@@ -46,10 +37,6 @@ bool Render::Start()
 	gl_context = SDL_GL_CreateContext(app->win->window);
 	if (!gl_context)
 		return false;
-
-	/*if (SDL_GL_MakeCurrent(app->win->window, gl_context) != 0)
-		return false;*/
-
 	
 
 	ilInit();
@@ -81,16 +68,36 @@ bool Render::Start()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glClearDepth(1.0f);
 
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+
 	//Check for error
 	error = glGetError();
 	if (error != GL_NO_ERROR)
 		return false;
 
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
+	GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
+		lights[0].ref = GL_LIGHT0;
+		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
+		lights[0].SetPos(0.0f, 0.0f, 2.5f);
+		lights[0].Init();
+
+		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+
+		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	lights[0].Active(true);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+
+
+	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	return true;
 }
@@ -98,10 +105,17 @@ bool Render::Start()
 // Called each loop iteration
 bool Render::PreUpdate()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glLoadIdentity();
 
-	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(app->camera->GetViewMatrix());
+
+	// light 0 on cam pos
+	lights[0].SetPos(app->camera->Position.x, app->camera->Position.y, app->camera->Position.z);
+
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
+		lights[i].Render();
 
 	return true;
 }
@@ -113,18 +127,13 @@ bool Render::Update()
 
 bool Render::PostUpdate()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z,
-		camera.center.x, camera.center.y, camera.center.z,
-		camera.up.x, camera.up.y, camera.up.z);
 
 	drawGrid(100, 1);
 	drawAxis();
+
+	SDL_GL_SwapWindow(app->win->window);
+
+	
 
 	assert(glGetError() == GL_NONE);
 	return true;
@@ -180,4 +189,17 @@ void Render::drawGrid(int grid_size, int grid_step)
 		glVertex3i(grid_size, 0, i);
 	}
 	glEnd();
+}
+
+void Render::OnResize(int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	glLoadMatrixf(&ProjectionMatrix);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }

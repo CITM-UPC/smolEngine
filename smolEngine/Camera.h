@@ -1,20 +1,32 @@
 #pragma once
+#include "Module.h"
+#include "glmath.h"
 
-#include "types.h"
-
-struct Camera
+class Camera : public Module
 {
-	double fov;
-	double aspect;
-	double zNear;
-	double zFar;
+public:
+	Camera(bool start_enabled = true);
+	~Camera();
 
-	vec3 eye;
-	vec3 center;
-	vec3 up;
+	bool Start();
+	bool Update();
+	bool CleanUp();
 
-	mat4 computeLookAt() const;
+	void Look(const vec3& Position, const vec3& Reference, bool RotateAroundReference = false);
+	void LookAt(const vec3& Spot);
+	void Move(const vec3& Movement);
+	float* GetViewMatrix();
 
-	Camera();
+private:
+
+	void CalculateViewMatrix();
+
+public:
+
+	vec3 X, Y, Z, Position, Reference;
+
+private:
+
+	float cameraspeed, zoomspeed;
+	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
-

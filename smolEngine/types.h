@@ -5,9 +5,9 @@
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 
-typedef glm::dvec2 vec2;
-typedef glm::dvec3 vec3;
-typedef glm::dvec4 vec4;
+typedef glm::dvec2 dvec2;
+typedef glm::dvec3 dvec3;
+typedef glm::dvec4 dvec4;
 typedef glm::dmat4 mat4;
 
 

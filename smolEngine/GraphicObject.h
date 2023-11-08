@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "glmath.h"
 #include "Graphic.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <set>
@@ -19,7 +20,7 @@ public:
 	GraphicObject(std::shared_ptr<Graphic> graphic);
 
 	inline vec3& pos() { return (vec3&)(_transform[3]);  }
-	inline void rotate(double rads, const vec3& axis) { _transform = glm::rotate(_transform, rads, axis); }
+	inline void rotate(double rads, const dvec3& axis) { _transform = glm::rotate(_transform, rads, axis); }
 
 	void paint();
 

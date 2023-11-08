@@ -9,6 +9,7 @@
 #include "ImguiEnabler.h"
 #include "Render.h"
 #include "Input.h"
+#include "Camera.h"
 
 namespace Timer
 {
@@ -72,6 +73,7 @@ public:
 	std::unique_ptr<Window> win;
 	std::unique_ptr<Render> render;
 	std::unique_ptr<Input> input;
+	std::unique_ptr<Camera> camera;
 	std::unique_ptr<ImguiEnabler> imgui;
 
 

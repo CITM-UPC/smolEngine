@@ -9,6 +9,7 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 
 	win = std::make_unique<Window>(true);
 	input = std::make_unique<Input>(true);
+	camera = std::make_unique<Camera>(true);
 	render = std::make_unique<Render>(true);
 	imgui = std::make_unique<ImguiEnabler>(true);
 
@@ -17,6 +18,7 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 	AddModuleFront(imgui.get());
 	AddModuleFront(input.get());
 	AddModuleFront(win.get());
+	AddModuleFront(camera.get());
 }
 
 // Destructor
