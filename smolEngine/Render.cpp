@@ -91,9 +91,7 @@ bool Render::Start()
 
 	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	root = std::make_unique<GameObject>("Assets/BakerHouse.fbx", "Baker House");
-
-	root->Rotate(1.2, dvec3(0, 0, 1));
+	AddGameObject("Assets/BakerHouse.fbx", "Baker House");
 
 
 	return true;
@@ -128,17 +126,7 @@ bool Render::PostUpdate()
 	drawGrid(100, 1);
 	drawAxis();
 
-#pragma region Draw Sandbox
-
-	
-
-	
-
-	
-	
-
-	root->Draw();
-#pragma endregion
+	DrawGameObjects();
 
 	assert(glGetError() == GL_NONE);
 	return true;
@@ -151,6 +139,22 @@ bool Render::CleanUp()
 
 	SDL_GL_DeleteContext(gl_context);
 	return true;
+}
+
+void Render::DrawGameObjects()
+{
+	for (auto const& object : objects)
+	{
+		object->Draw();
+	}
+}
+
+void Render::AddGameObject(const std::string& path, const std::string& n)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(path, n);
+
+	objects.push_back(object);
 }
 
 void Render::SetBackgroundColor(ImVec4 color)

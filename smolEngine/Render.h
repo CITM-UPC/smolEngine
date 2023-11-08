@@ -36,6 +36,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void DrawGameObjects();
+
+	void AddGameObject(const std::string& path, const std::string& n);
+
 	void SetBackgroundColor(ImVec4 color);
 	void OnResize(int width, int height);
 
@@ -48,7 +52,7 @@ private:
 public:
 	Light lights[MAX_LIGHTS];
 
-	std::unique_ptr<GameObject> root;
+	std::list<std::shared_ptr<GameObject>> objects;
 
 	Camera camera;
 	ImVec4 bg_color;

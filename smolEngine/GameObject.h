@@ -4,10 +4,11 @@
 #include "Defs.h"
 #include "Mesh.h"
 
-class GameObject : public Tree<GameObject>
+class GameObject
 {
 public:
 
+	GameObject();
 	GameObject(const std::string& n);
 	GameObject(const std::string& path, const std::string& n);
 	~GameObject();
@@ -32,7 +33,7 @@ private:
 
 	std::string name;
 
-	std::unique_ptr<GraphicObject> root;
+	std::shared_ptr<GraphicObject> root;
 
 };
 

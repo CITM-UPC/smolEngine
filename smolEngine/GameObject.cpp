@@ -1,15 +1,19 @@
 #include "GameObject.h"
 
+GameObject::GameObject()
+{
+}
+
 GameObject::GameObject(const std::string& n)
 {
-	root = std::make_unique<GraphicObject>();
+	root = std::make_shared<GraphicObject>();
 	name = n;
 	//generateId();
 }
 
 GameObject::GameObject(const std::string& path, const std::string& n)
 {
-	root = std::make_unique<GraphicObject>();
+	root = std::make_shared<GraphicObject>();
 	name = n;
 	LoadMesh(path);
 	//generateId();
