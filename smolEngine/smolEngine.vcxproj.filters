@@ -146,9 +146,6 @@
     <ClCompile Include="glmath.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Core\Modules\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Core\Modules\Camera</Filter>
     </ClCompile>
@@ -163,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core\Modules\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

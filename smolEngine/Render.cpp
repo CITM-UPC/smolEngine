@@ -92,6 +92,7 @@ bool Render::Start()
 	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	AddGameObject("Assets/BakerHouse.fbx", "Baker House");
+	AddGameObject("Assets/untitled.fbx", "unreal mannequin");
 
 
 	return true;

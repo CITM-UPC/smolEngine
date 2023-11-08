@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Input.h"
+#include "Defs.h"
 
 #define MAX_KEYS 300
 
@@ -86,6 +87,7 @@ bool Input::PreUpdate()
 
 	bool quit = false;
 	SDL_Event e;
+	std::string filepath;
 	while (SDL_PollEvent(&e))
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e);
@@ -108,6 +110,20 @@ bool Input::PreUpdate()
 		case SDL_QUIT:
 			quit = true;
 			break;
+
+		case SDL_DROPFILE:
+
+			filepath = e.drop.file;
+
+			// Check if the dropped file has the .fbx extension
+			if (filepath.substr(filepath.find_last_of(".") + 1) == "fbx") {
+				
+				LOG("fbx detected, loading...");
+				app->render->AddGameObject(filepath, "NewGameObject");
+			}
+			else {
+				LOG("couldn't load fbx file. Make sure that it is a fbx file and not another.");
+			}
 
 		case SDL_WINDOWEVENT:
 			switch (e.window.event)

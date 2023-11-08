@@ -37,7 +37,6 @@ void GameObject::LoadMesh(const std::string& path)
 
 void GameObject::Draw()
 {
-	if(root)
 		root->paint();
 }
 
