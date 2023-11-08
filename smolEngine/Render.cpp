@@ -12,8 +12,6 @@
 #include "CubeInterleavedVBO.h"
 #include "CubeWireframeIVBO.h"
 
-#include "GraphicObject.h"
-
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = VSYNC;
@@ -68,8 +66,6 @@ bool Render::Start()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glClearDepth(1.0f);
 
-	glClearColor(0.f, 0.f, 0.f, 1.f);
-
 	//Check for error
 	error = glGetError();
 	if (error != GL_NO_ERROR)
@@ -91,13 +87,14 @@ bool Render::Start()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	lights[0].Active(true);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_COLOR_MATERIAL);
-
+	glDepthFunc(GL_LEQUAL);
 
 	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	root = std::make_unique<GameObject>("Assets/BakerHouse.fbx", "Baker House");
+
+	root->Rotate(1.2, vec3(0, 0, 1));
+
 
 	return true;
 }
@@ -131,8 +128,17 @@ bool Render::PostUpdate()
 	drawGrid(100, 1);
 	drawAxis();
 
+#pragma region Draw Sandbox
 
 	
+
+	
+
+	
+	
+
+	root->Draw();
+#pragma endregion
 
 	assert(glGetError() == GL_NONE);
 	return true;

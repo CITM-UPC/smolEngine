@@ -2,11 +2,14 @@
 
 #include "Module.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "imgui.h"
 #include "Light.h"
 #include "Defs.h"
 #include "SDL2/SDL.h"
 #include <glm/gtc/type_ptr.hpp>
+
+#include "GameObject.h"
 
 #define MAX_LIGHTS 8
 
@@ -44,6 +47,10 @@ private:
 
 public:
 	Light lights[MAX_LIGHTS];
+
+	std::unique_ptr<GameObject> root;
+
+	Camera camera;
 	ImVec4 bg_color;
 	bool vsync;
 	SDL_GLContext gl_context = NULL;

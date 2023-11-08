@@ -94,7 +94,9 @@ $(SolutionDir)\vcpkg\vcpkg.exe install opengl glew sdl2 imgui[opengl3-binding,sd
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AboutPanel.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="smolEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +105,9 @@ $(SolutionDir)\vcpkg\vcpkg.exe install opengl glew sdl2 imgui[opengl3-binding,sd
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutPanel.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="Panel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

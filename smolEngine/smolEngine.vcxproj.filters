@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Mesh.h">
-      <Filter>3D Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Graphic.h">
       <Filter>3D Objects</Filter>
     </ClInclude>
@@ -81,6 +78,15 @@
     <ClInclude Include="Input.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>3D Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>3D Objects</Filter>
+    </ClInclude>
     <ClInclude Include="glmath.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -95,9 +101,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>3D Objects</Filter>
-    </ClCompile>
     <ClCompile Include="CubeImmediateMode.cpp">
       <Filter>3D Objects\Cube</Filter>
     </ClCompile>
@@ -151,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>3D Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
