@@ -4,6 +4,7 @@
 #include "../smolEngine/Defs.h"
 #include "Panel.h"
 #include "AboutPanel.h"
+#include "HierarchyPanel.h"
 
 class Editor : public Module
 {
@@ -29,6 +30,7 @@ public:
 private:
 
 	std::unique_ptr<Panel> about;
+	std::unique_ptr<Panel> hierarchy;
 
 	std::list<Panel*> panels;
 };

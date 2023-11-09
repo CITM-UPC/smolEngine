@@ -19,6 +19,8 @@ public:
 
 	void Rotate(double rads, const dvec3& axis);
 
+	const char* getName() { return name.c_str(); }
+
 	/*void generateId()
 	{
 		lastId++;

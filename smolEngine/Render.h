@@ -39,10 +39,15 @@ public:
 	void DrawGameObjects();
 
 	void AddGameObject(const std::string& path, const std::string& n);
+	void AddGameObject(const std::string& n);
+	void AddGameObject();
 
 	void SetBackgroundColor(ImVec4 color);
 	void OnResize(int width, int height);
 
+
+	void drawQuadFaceTriangles(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
+	void cubeTest();
 
 private:
 	void drawAxis();

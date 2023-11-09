@@ -158,6 +158,22 @@ void Render::AddGameObject(const std::string& path, const std::string& n)
 	objects.push_back(object);
 }
 
+void Render::AddGameObject(const std::string& n)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(n);
+
+	objects.push_back(object);
+}
+
+void Render::AddGameObject()
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>();
+
+	objects.push_back(object);
+}
+
 void Render::SetBackgroundColor(ImVec4 color)
 {
 	bg_color = color;
@@ -198,6 +214,50 @@ void Render::drawGrid(int grid_size, int grid_step)
 		glVertex3i(-grid_size, 0, i);
 		glVertex3i(grid_size, 0, i);
 	}
+	glEnd();
+}
+
+void Render::drawQuadFaceTriangles(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d)
+{
+	glVertex3fv(&a.x);
+	glVertex3fv(&b.x);
+	glVertex3fv(&c.x);
+
+	glVertex3fv(&c.x);
+	glVertex3fv(&d.x);
+	glVertex3fv(&a.x);
+}
+
+void Render::cubeTest()
+{
+	glm::vec3 a = glm::vec3(-1, -1, 1);
+	glm::vec3 b = glm::vec3(1, -1, 1);
+	glm::vec3 c = glm::vec3(1, 1, 1);
+	glm::vec3 d = glm::vec3(-1, 1, 1);
+	glm::vec3 e = glm::vec3(-1, -1, -1);
+	glm::vec3 f = glm::vec3(1, -1, -1);
+	glm::vec3 g = glm::vec3(1, 1, -1);
+	glm::vec3 h = glm::vec3(-1, 1, -1);
+
+	glBegin(GL_TRIANGLES);
+	//front
+	glColor3f(255, 0, 0);
+	drawQuadFaceTriangles(a, b, c, d);
+	//back
+	glColor3f(0, 255, 0);
+	drawQuadFaceTriangles(h, g, f, e);
+	//left
+	glColor3f(0, 0, 255);
+	drawQuadFaceTriangles(e, a, d, h);
+	//right
+	glColor3f(255, 255, 0);
+	drawQuadFaceTriangles(b, f, g, c);
+	//top
+	glColor3f(255, 255, 255);
+	drawQuadFaceTriangles(d, c, g, h);
+	//bottom
+	glColor3f(0, 0, 0);
+	drawQuadFaceTriangles(b, a, e, f);
 	glEnd();
 }
 

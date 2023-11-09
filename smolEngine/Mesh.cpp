@@ -5,12 +5,13 @@
 #include <assimp/cimport.h>
 #include <assimp/scene.h>
 
+
+#include <filesystem>
 #include <span>
 
 #include <vector>
 #include <array>
 
-#include <filesystem>
 namespace fs = std::filesystem;
 
 using namespace std;

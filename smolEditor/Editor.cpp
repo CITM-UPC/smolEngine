@@ -14,9 +14,11 @@ bool Editor::Start()
 {
 	//LOG("render start");
 	about = std::make_unique<AboutPanel>(this);
+	hierarchy = std::make_unique<HierarchyPanel>(this);
 
 
 	panels.push_back(about.get());
+	panels.push_back(hierarchy.get());
 
 	return true;
 }
