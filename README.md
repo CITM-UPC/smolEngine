@@ -1,13 +1,15 @@
 # smolEngine
-It's a small game engine.
+It's a smol game engine.
 
 ## About the project
 
 smolEngine is a 3D smol Game Engine developed for the subject of Game Engines in the third course of design and productiion of videogames in the CITM UPC University. Our objective is that this engine can be used to develop any kind of 3D games.
 
 By the moment the engine has the following features:
-- fbx model loading
-- camera movement
+- Fbx model loading and drag and drop
+- Texture import with fbx attachement or in the same folder
+- Camera movement
+- GameObject hierarchy
 
 ## Authors
 
@@ -16,15 +18,15 @@ By the moment the engine has the following features:
 
 ## How to use
 
--pan camera around with right click of mouse
--zoom with mouse wheel
+- Pan camera around with right click of mouse
+- Zoom with mouse wheel
 
 while right click of mouse is clicked:
 -w,a,s,d to move around 
 -q,e to go up or downn
--mouse wheel to augment or decrease camera speed
+-Mouse wheel to augment or decrease camera speed
 
-##License
+## License
 
 MIT License
 
