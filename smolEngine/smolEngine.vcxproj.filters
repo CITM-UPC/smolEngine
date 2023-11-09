@@ -19,11 +19,11 @@
     <Filter Include="Core\Modules">
       <UniqueIdentifier>{5bb4dd1d-8686-465f-9922-a374d4e5d844}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Modules\Camera">
+      <UniqueIdentifier>{5826ac65-d7f8-4200-afe4-7bc1e7bc257d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Mesh.h">
-      <Filter>3D Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Graphic.h">
       <Filter>3D Objects</Filter>
     </ClInclude>
@@ -49,9 +49,6 @@
       <Filter>3D Objects</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
@@ -81,11 +78,29 @@
     <ClInclude Include="Input.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>3D Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>3D Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="glmath.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core\Modules\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Core\Modules\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>3D Objects</Filter>
-    </ClCompile>
     <ClCompile Include="CubeImmediateMode.cpp">
       <Filter>3D Objects\Cube</Filter>
     </ClCompile>
@@ -107,9 +122,6 @@
     <ClCompile Include="GraphicObject.cpp">
       <Filter>3D Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
@@ -130,6 +142,27 @@
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="glmath.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Core\Modules\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>3D Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core\Modules\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

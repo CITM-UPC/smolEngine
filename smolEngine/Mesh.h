@@ -5,6 +5,7 @@
 #include <string>
 
 #include "types.h"
+#include "glmath.h"
 #include "Graphic.h"
 #include "Texture2D.h"
 

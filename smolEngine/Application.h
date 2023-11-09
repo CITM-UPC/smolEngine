@@ -9,6 +9,7 @@
 #include "ImguiEnabler.h"
 #include "Render.h"
 #include "Input.h"
+#include "Camera.h"
 
 namespace Timer
 {
@@ -43,6 +44,10 @@ public:
 
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
+	const char* GetVersion() const {
+		return "0.1";
+	}
+
 
 private:
 
@@ -72,6 +77,7 @@ public:
 	std::unique_ptr<Window> win;
 	std::unique_ptr<Render> render;
 	std::unique_ptr<Input> input;
+	std::unique_ptr<Camera> camera;
 	std::unique_ptr<ImguiEnabler> imgui;
 
 
@@ -86,7 +92,7 @@ private:
 	Timer::steady_clock::time_point frameEnd;
 	Timer::nanoseconds frameDuration;
 
-	std::vector<float> fpsHistory;
+	//std::vector<float> fpsHistory;
 
 	float averageFps = 0.0f;
 

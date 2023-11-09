@@ -1,32 +1,28 @@
 #include "Application.h"
 #include "Input.h"
-#include "Window.h"
-
 #include "Defs.h"
-#include "Log.h"
 
-Input::Input(bool startEnabled) : Module(startEnabled)
+#define MAX_KEYS 300
+
+Input::Input(bool start_enabled) : Module(start_enabled)
 {
-	keyboard = new KeyState[MAX_KEYS];
-	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
-	memset(mouseButtons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
+	keyboard = new KEY_STATE[MAX_KEYS];
+	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
+	memset(mouse_buttons, KEY_IDLE, sizeof(KEY_STATE) * MAX_MOUSE_BUTTONS);
 }
 
 // Destructor
 Input::~Input()
 {
-	RELEASE(keyboard);
+	delete[] keyboard;
 }
+
+// Called before render is available
 bool Input::Init()
 {
-	return true;
-}
-// Called before the first frame
-bool Input::Start()
-{
-	bool ret = true;
-
 	LOG("Init SDL input event system");
+	bool ret = true;
+	SDL_Init(0);
 
 	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
@@ -34,20 +30,13 @@ bool Input::Start()
 		ret = false;
 	}
 
-	if (SDL_InitSubSystem(SDL_INIT_HAPTIC) < 0)
-	{
-		LOG("SDL_INIT_HAPTIC could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
-
-	SDL_StopTextInput();
 	return ret;
 }
 
-// Called each loop iteration
+// Called every draw update
 bool Input::PreUpdate()
 {
-	static SDL_Event event;
+	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -69,28 +58,75 @@ bool Input::PreUpdate()
 		}
 	}
 
-	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
-	{
-		if (mouseButtons[i] == KEY_DOWN)
-			mouseButtons[i] = KEY_REPEAT;
+	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
-		if (mouseButtons[i] == KEY_UP)
-			mouseButtons[i] = KEY_IDLE;
+	//in case of resizable window
+	//mouse_x /= SCREEN_SIZE;
+	//mouse_y /= SCREEN_SIZE;
+	mouse_z = 0;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (buttons & SDL_BUTTON(i))
+		{
+			if (mouse_buttons[i] == KEY_IDLE)
+				mouse_buttons[i] = KEY_DOWN;
+			else
+				mouse_buttons[i] = KEY_REPEAT;
+		}
+		else
+		{
+			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
+				mouse_buttons[i] = KEY_UP;
+			else
+				mouse_buttons[i] = KEY_IDLE;
+		}
 	}
 
-	while (SDL_PollEvent(&event) != 0)
+	mouse_x_motion = mouse_y_motion = 0;
+
+	bool quit = false;
+	SDL_Event e;
+	std::string filepath;
+	while (SDL_PollEvent(&e))
 	{
+		ImGui_ImplSDL2_ProcessEvent(&e);
 
-		ImGui_ImplSDL2_ProcessEvent(&event);
-
-		switch (event.type)
+		switch (e.type)
 		{
-		case SDL_QUIT:
-			windowEvents[WE_QUIT] = true;
+		case SDL_MOUSEWHEEL:
+			mouse_z = e.wheel.y;
 			break;
 
+		case SDL_MOUSEMOTION:
+			//divide by window_size in case window resizable
+			mouse_x = e.motion.x;
+			mouse_y = e.motion.y;
+
+			mouse_x_motion = e.motion.xrel;
+			mouse_y_motion = e.motion.yrel;
+			break;
+
+		case SDL_QUIT:
+			quit = true;
+			break;
+
+		case SDL_DROPFILE:
+
+			filepath = e.drop.file;
+
+			// Check if the dropped file has the .fbx extension
+			if (filepath.substr(filepath.find_last_of(".") + 1) == "fbx") {
+				
+				LOG("fbx detected, loading...");
+				app->render->AddGameObject(filepath, "NewGameObject");
+			}
+			else {
+				LOG("couldn't load fbx file. Make sure that it is a fbx file and not another.");
+			}
+
 		case SDL_WINDOWEVENT:
-			switch (event.window.event)
+			switch (e.window.event)
 			{
 				//case SDL_WINDOWEVENT_LEAVE:
 			case SDL_WINDOWEVENT_HIDDEN:
@@ -107,28 +143,11 @@ bool Input::PreUpdate()
 				windowEvents[WE_SHOW] = true;
 				break;
 			}
-			break;
-
-
-		case SDL_MOUSEBUTTONDOWN:
-			mouseButtons[event.button.button - 1] = KEY_DOWN;
-			//LOG("Mouse button %d down", event.button.button-1);
-			break;
-
-		case SDL_MOUSEBUTTONUP:
-			mouseButtons[event.button.button - 1] = KEY_UP;
-			//LOG("Mouse button %d up", event.button.button-1);
-			break;
-
-		case SDL_MOUSEMOTION:
-			mouseMotionX = event.motion.xrel;
-			mouseMotionY = event.motion.yrel;
-			mouseX = event.motion.x;
-			mouseY = event.motion.y;
-			//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
-			break;
 		}
 	}
+
+	if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+		return false;
 
 	return true;
 }
@@ -136,26 +155,7 @@ bool Input::PreUpdate()
 // Called before quitting
 bool Input::CleanUp()
 {
-	LOG("Quitting SDL event subsystem");
+	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
-
 	return true;
-}
-
-
-bool Input::GetWindowEvent(EventWindow ev)
-{
-	return windowEvents[ev];
-}
-
-void Input::GetMousePosition(int& x, int& y)
-{
-	x = mouseX;
-	y = mouseY;
-}
-
-void Input::GetMouseMotion(int& x, int& y)
-{
-	x = mouseMotionX;
-	y = mouseMotionY;
 }

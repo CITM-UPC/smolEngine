@@ -13,6 +13,12 @@ Editor::~Editor()
 bool Editor::Start()
 {
 	//LOG("render start");
+	about = std::make_unique<AboutPanel>(this);
+	hierarchy = std::make_unique<HierarchyPanel>(this);
+
+
+	panels.push_back(about.get());
+	panels.push_back(hierarchy.get());
 
 	return true;
 }
@@ -31,6 +37,16 @@ bool Editor::Update(float dt)
 
 bool Editor::PostUpdate()
 {
+	return true;
+}
+
+bool Editor::OnRenderUI()
+{
+	for (auto const& panel : panels)
+	{
+		panel->Draw();
+	}
+
 	return true;
 }
 

@@ -6,27 +6,16 @@
 #include "SDL2/SDL_opengl.h"
 #include <IL/il.h>
 
-
 #include "CubeImmediateMode.h"
 #include "CubeVertexArray.h"
 #include "CubeVertexBuffer.h"
 #include "CubeInterleavedVBO.h"
 #include "CubeWireframeIVBO.h"
 
-#include "GraphicObject.h"
-
 Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = VSYNC;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
-
-	camera.fov = 60;
-	camera.aspect = static_cast<double>(WINDOW_WIDTH) / WINDOW_HEIGHT;
-	camera.zNear = 0.1;
-	camera.zFar = 100;
-	camera.eye = vec3(5, 1.75, 5);
-	camera.center = vec3(0, 1, 0);
-	camera.up = vec3(0, 1, 0);
 }
 
 // Destructor
@@ -46,10 +35,6 @@ bool Render::Start()
 	gl_context = SDL_GL_CreateContext(app->win->window);
 	if (!gl_context)
 		return false;
-
-	/*if (SDL_GL_MakeCurrent(app->win->window, gl_context) != 0)
-		return false;*/
-
 	
 
 	ilInit();
@@ -86,10 +71,28 @@ bool Render::Start()
 	if (error != GL_NO_ERROR)
 		return false;
 
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+
+		lights[0].ref = GL_LIGHT0;
+		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
+		lights[0].SetPos(0.0f, 0.0f, 2.5f);
+		lights[0].Init();
+
+		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+
+		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+
+	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	AddGameObject("Assets/BakerHouse.fbx", "Baker House");
+	AddGameObject("Assets/untitled.fbx", "unreal mannequin");
 
 
 	return true;
@@ -98,10 +101,17 @@ bool Render::Start()
 // Called each loop iteration
 bool Render::PreUpdate()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glLoadIdentity();
 
-	
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(app->camera->GetViewMatrix());
+
+	// light 0 on cam pos
+	lights[0].SetPos(app->camera->Position.x, app->camera->Position.y, app->camera->Position.z);
+
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
+		lights[i].Render();
 
 	return true;
 }
@@ -113,18 +123,11 @@ bool Render::Update()
 
 bool Render::PostUpdate()
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(camera.fov, camera.aspect, camera.zNear, camera.zFar);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z,
-		camera.center.x, camera.center.y, camera.center.z,
-		camera.up.x, camera.up.y, camera.up.z);
 
 	drawGrid(100, 1);
 	drawAxis();
+
+	DrawGameObjects();
 
 	assert(glGetError() == GL_NONE);
 	return true;
@@ -137,6 +140,38 @@ bool Render::CleanUp()
 
 	SDL_GL_DeleteContext(gl_context);
 	return true;
+}
+
+void Render::DrawGameObjects()
+{
+	for (auto const& object : objects)
+	{
+		object->Draw();
+	}
+}
+
+void Render::AddGameObject(const std::string& path, const std::string& n)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(path, n);
+
+	objects.push_back(object);
+}
+
+void Render::AddGameObject(const std::string& n)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(n);
+
+	objects.push_back(object);
+}
+
+void Render::AddGameObject()
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>();
+
+	objects.push_back(object);
 }
 
 void Render::SetBackgroundColor(ImVec4 color)
@@ -180,4 +215,61 @@ void Render::drawGrid(int grid_size, int grid_step)
 		glVertex3i(grid_size, 0, i);
 	}
 	glEnd();
+}
+
+void Render::drawQuadFaceTriangles(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d)
+{
+	glVertex3fv(&a.x);
+	glVertex3fv(&b.x);
+	glVertex3fv(&c.x);
+
+	glVertex3fv(&c.x);
+	glVertex3fv(&d.x);
+	glVertex3fv(&a.x);
+}
+
+void Render::cubeTest()
+{
+	glm::vec3 a = glm::vec3(-1, -1, 1);
+	glm::vec3 b = glm::vec3(1, -1, 1);
+	glm::vec3 c = glm::vec3(1, 1, 1);
+	glm::vec3 d = glm::vec3(-1, 1, 1);
+	glm::vec3 e = glm::vec3(-1, -1, -1);
+	glm::vec3 f = glm::vec3(1, -1, -1);
+	glm::vec3 g = glm::vec3(1, 1, -1);
+	glm::vec3 h = glm::vec3(-1, 1, -1);
+
+	glBegin(GL_TRIANGLES);
+	//front
+	glColor3f(255, 0, 0);
+	drawQuadFaceTriangles(a, b, c, d);
+	//back
+	glColor3f(0, 255, 0);
+	drawQuadFaceTriangles(h, g, f, e);
+	//left
+	glColor3f(0, 0, 255);
+	drawQuadFaceTriangles(e, a, d, h);
+	//right
+	glColor3f(255, 255, 0);
+	drawQuadFaceTriangles(b, f, g, c);
+	//top
+	glColor3f(255, 255, 255);
+	drawQuadFaceTriangles(d, c, g, h);
+	//bottom
+	glColor3f(0, 0, 0);
+	drawQuadFaceTriangles(b, a, e, f);
+	glEnd();
+}
+
+void Render::OnResize(int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	glLoadMatrixf(&ProjectionMatrix);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
