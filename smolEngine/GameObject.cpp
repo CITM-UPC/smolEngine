@@ -25,7 +25,7 @@ GameObject::~GameObject()
 
 void GameObject::LoadMesh(const std::string& path)
 {
-	static auto mesh_ptrs = Mesh::loadFromFile(path);
+	auto mesh_ptrs = Mesh::loadFromFile(path);
 	GraphicObject object;
 	for (auto const& mesh_ptr : mesh_ptrs)
 	{
