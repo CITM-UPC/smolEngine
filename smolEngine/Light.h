@@ -15,6 +15,6 @@ struct Light
 	Color diffuse;
 	vec3 position;
 
-	int ref;
-	bool on;
+	int ref = 0;
+	bool on = 0;
 };

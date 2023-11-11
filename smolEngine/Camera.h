@@ -27,6 +27,6 @@ public:
 
 private:
 
-	float cameraspeed, zoomspeed;
+	float cameraspeed, zoomspeed = 0.0f;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };

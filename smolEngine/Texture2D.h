@@ -7,7 +7,7 @@ class Texture2D
 {
 
 private:
-	unsigned int _id;
+	unsigned int _id = 0;
 
 public:
 	typedef std::shared_ptr<Texture2D> Ptr;

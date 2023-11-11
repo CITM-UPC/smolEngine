@@ -61,7 +61,7 @@ public:
 
 	Camera camera;
 	ImVec4 bg_color;
-	bool vsync;
+	bool vsync = 0;
 	SDL_GLContext gl_context = NULL;
 	mat4x4 ProjectionMatrix;
 };

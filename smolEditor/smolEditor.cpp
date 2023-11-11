@@ -1,4 +1,5 @@
 #include "../smolEngine/Application.h"
+#include "../smolEngine/Defs.h"
 #include "Editor.h"
 
 class smolEditorApp : public Application

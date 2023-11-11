@@ -66,6 +66,6 @@ public:
 	inline bool IsEnabled() const { return active; }
 
 public:
-	bool active;
+	bool active = 0;
 
 };

@@ -98,7 +98,7 @@ private:
 
 	bool frcap = FRAMECAP;
 
-	AppState state;
+	AppState state = AppState::CREATE;
 };
 
 extern Application* app;

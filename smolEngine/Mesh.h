@@ -21,10 +21,10 @@ public:
 private:
 	const enum Formats _format;
 
-	unsigned int _vertex_buffer_id;
+	unsigned int _vertex_buffer_id = 0;
 	const unsigned int _numVerts;
 
-	unsigned int _indexs_buffer_id;
+	unsigned int _indexs_buffer_id = 0;
 	const unsigned int _numIndexs;
 
 public:
