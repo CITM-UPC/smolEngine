@@ -17,8 +17,8 @@ public:
 	virtual void Update(){}
 	const char* GetName() const { return name; }
 public:
-	bool active = false;
+	bool active = true;
 protected:
-	const char* name;
+	const char* name = NULL;
 	Editor* instance;
 };

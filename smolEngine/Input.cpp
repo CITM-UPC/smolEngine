@@ -14,7 +14,7 @@ Input::Input(bool start_enabled) : Module(start_enabled)
 // Destructor
 Input::~Input()
 {
-	delete[] keyboard;
+	RELEASE(keyboard);
 }
 
 // Called before render is available
