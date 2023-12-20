@@ -27,10 +27,10 @@ struct aiSceneExt : aiScene {
     auto meshes() const { return span((aiMeshExt**)mMeshes, mNumMeshes); }
 };
 
-PTRMeshWithTriangles Mesh::loadFromFile(const std::string& path) {
+PTRMeshData Mesh::loadFromFile(const std::string& path) {
     std::vector<Triangle> allTriangles;
 
-    PTRMeshWithTriangles finalMesh;
+    PTRMeshData finalMesh;
 
     const auto scene_ptr = aiImportFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
     if (!scene_ptr) {
@@ -56,10 +56,14 @@ PTRMeshWithTriangles Mesh::loadFromFile(const std::string& path) {
 
         const auto& mesh = *mesh_ptr;
 
+        aiNode* node = scene.mRootNode->FindNode(mesh.mName);
 
         vector<V3T2> vertex_data;
         for (size_t i = 0; i < mesh.verts().size(); ++i) {
             V3T2 v;
+
+            mesh.mVertices[i] *= node->mTransformation;
+
             v.v = mesh.verts()[i]; // Assign vertex position
 
             // Check if the mesh has texture coordinates

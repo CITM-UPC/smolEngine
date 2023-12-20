@@ -30,7 +30,7 @@ GameObject::~GameObject()
 void GameObject::LoadMesh(const std::string& path)
 {
     //breakpoint
-	PTRMeshWithTriangles temp = Mesh::loadFromFile(path);
+	PTRMeshData temp = Mesh::loadFromFile(path);
 	
 	auto mesh_ptrs = temp.mesh_ptrs;
 
@@ -40,6 +40,8 @@ void GameObject::LoadMesh(const std::string& path)
 		GraphicObject mesh(mesh_ptr);
 		object.addChild(std::move(mesh));
 	}
+    //move the object to its location, it was painful
+    object.rotate(135 * 0.0174533, dvec3(1, 0, 0));
 
     //creates meshsegments in the gameobject for the raycast
 	this->dividedMesh = Mesh::CreateMeshSegments(50, temp.triangles);
@@ -47,6 +49,7 @@ void GameObject::LoadMesh(const std::string& path)
     //sets the gameobject bounding box
     this->boundingBox.SetTriangleVector(temp.triangles);
     this->boundingBox.CalculateBounds();
+
 
 
 	root->addChild(std::move(object));
@@ -75,6 +78,16 @@ void GameObject::Draw()
 void GameObject::Rotate(double rads, const dvec3& axis)
 {
 	root->rotate(rads, axis);
+}
+
+void GameObject::Move(const dvec3& displacement)
+{
+    root->move(displacement);
+}
+
+void GameObject::Scale(const dvec3& s)
+{
+    root->scale(s);
 }
 
 bool GameObject::Intersects(const Ray& ray, float& outDistance) {

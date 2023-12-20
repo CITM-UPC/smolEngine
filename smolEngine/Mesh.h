@@ -14,10 +14,11 @@
 
 class Mesh;
 
-struct PTRMeshWithTriangles
+struct PTRMeshData
 {
 	std::vector<std::shared_ptr<Mesh>> mesh_ptrs;
 	std::vector<Triangle> triangles;
+	std::vector<mat4> transforms;
 };
 
 class Mesh : public Graphic
@@ -44,7 +45,7 @@ public:
 	typedef std::shared_ptr<Mesh> Ptr;
 	
 
-	static PTRMeshWithTriangles loadFromFile(const std::string& path);
+	static PTRMeshData loadFromFile(const std::string& path);
 
 	Texture2D::Ptr texture;
 
