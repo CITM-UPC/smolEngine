@@ -153,7 +153,6 @@ bool Render::CleanUp()
 }
 
 
-//if mmouseclick esquerra, que chequei nomes la bounding box gran
 void Render::OnLeftMouseClick(int x, int y) {
 	HandleRaycast(x,y);
 }

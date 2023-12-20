@@ -62,6 +62,10 @@ public:
 	void OnRightMouseClick(int x, int y) override;
 	void OnMiddleMouseClick(int x, int y) override;
 
+	std::shared_ptr<GameObject> GetCurrentSelectedObject() const{
+		return currentSelectedObject;
+	}
+
 
 
 private:
