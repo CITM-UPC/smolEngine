@@ -26,6 +26,7 @@ public:
 	void Scale(const dvec3& s);
 
 	const char* getName() { return name.c_str(); }
+	void setName(const char* n) { name = n; }
 	unsigned int getID() const { return id; }
 	bool GetSelected() { return isSelected; }
 	BoundingBox GetBoundingBox() { return boundingBox; }

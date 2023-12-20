@@ -25,5 +25,6 @@ public:
 	void EndUI();
 
 private:
+	void SetDarkTheme();
 
 };
