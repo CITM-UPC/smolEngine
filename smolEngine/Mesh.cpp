@@ -17,8 +17,8 @@ namespace fs = std::filesystem;
 using namespace std;
 
 struct aiMeshExt : aiMesh {
-    auto verts() const { return span((vec3f*)mVertices, mNumVertices); }
-    auto texCoords() const { return span((vec3f*)mTextureCoords[0], mNumVertices); }
+    auto verts() const { return span((vec3*)mVertices, mNumVertices); }
+    auto texCoords() const { return span((vec3*)mTextureCoords[0], mNumVertices); }
     auto faces() const { return span(mFaces, mNumFaces); }
 };
 
@@ -27,9 +27,16 @@ struct aiSceneExt : aiScene {
     auto meshes() const { return span((aiMeshExt**)mMeshes, mNumMeshes); }
 };
 
-std::vector<Mesh::Ptr> Mesh::loadFromFile(const std::string& path) {
-     
+PTRMeshWithTriangles Mesh::loadFromFile(const std::string& path) {
+    std::vector<Triangle> allTriangles;
+
+    PTRMeshWithTriangles finalMesh;
+
     const auto scene_ptr = aiImportFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
+    if (!scene_ptr) {
+        // Handle the error of failing to import the file
+        return finalMesh;
+    }
     const aiSceneExt& scene = *(aiSceneExt*)scene_ptr;
 
     //load textures
@@ -42,15 +49,27 @@ std::vector<Mesh::Ptr> Mesh::loadFromFile(const std::string& path) {
         texture_ptrs.push_back(texture_ptr);
     }
 
-    //load meshes
-    vector<Mesh::Ptr> mesh_ptrs;
+    //load meshes and accumulate triangles
+
+    vector<Ptr> mesh_ptrs;
     for (const auto& mesh_ptr : scene.meshes()) {
 
         const auto& mesh = *mesh_ptr;
 
+
         vector<V3T2> vertex_data;
         for (size_t i = 0; i < mesh.verts().size(); ++i) {
-            V3T2 v = { mesh.verts()[i], vec2f(mesh.texCoords()[i].x, mesh.texCoords()[i].y) };
+            V3T2 v;
+            v.v = mesh.verts()[i]; // Assign vertex position
+
+            // Check if the mesh has texture coordinates
+            if (mesh.HasTextureCoords(0)) { // Assimp stores texture coords in channels, 0 is the first
+                v.t = vec2(mesh.texCoords()[i].x, mesh.texCoords()[i].y);
+            }
+            else {
+                v.t = vec2(0.0f, 0.0f); // Assign default texture coordinates if not available
+            }
+
             vertex_data.push_back(v);
         }
 
@@ -64,11 +83,15 @@ std::vector<Mesh::Ptr> Mesh::loadFromFile(const std::string& path) {
         auto mesh_sptr = make_shared<Mesh>(Formats::F_V3T2, vertex_data.data(), vertex_data.size(), index_data.data(), index_data.size());
         mesh_sptr->texture = texture_ptrs[mesh.mMaterialIndex];
         mesh_ptrs.push_back(mesh_sptr);
+
+        // Get triangles for this mesh
+        std::vector<Triangle> triangles = mesh_sptr->GetTriangles(vertex_data, index_data);
+        finalMesh.triangles.insert(finalMesh.triangles.end(), triangles.begin(), triangles.end());
     }
 
+    finalMesh.mesh_ptrs = mesh_ptrs;
     aiReleaseImport(scene_ptr);
-
-    return mesh_ptrs;
+    return finalMesh;
 }
 Mesh::Mesh(Formats format, const void* vertex_data, unsigned int numVerts, const unsigned int* index_data, unsigned int numIndexs) :
     _format(format),
@@ -156,6 +179,50 @@ void Mesh::draw() {
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisable(GL_TEXTURE_2D);
+}
+
+std::vector<BoundingBox> Mesh::CreateMeshSegments(size_t maxTrianglesPerSegment, std::vector<Triangle> triangles) {
+    std::vector<BoundingBox> segments;
+    BoundingBox currentSegment;
+    size_t triangleCount = 0;
+
+    for (const Triangle& triangle : triangles) {
+        currentSegment.AddTriangle(triangle);
+        triangleCount++;
+
+        if (triangleCount >= maxTrianglesPerSegment) {
+            // Calculate the bounds of the current segment's bounding box
+            currentSegment.CalculateBounds();
+            segments.push_back(currentSegment);
+
+            // Reset for the next segment
+            currentSegment = BoundingBox();
+            triangleCount = 0;
+        }
+    }
+
+    // Check for any remaining triangles in the last segment
+    if (triangleCount > 0) {
+        currentSegment.CalculateBounds();
+        segments.push_back(currentSegment);
+    }
+
+    return segments;
+}
+
+std::vector<Triangle> Mesh::GetTriangles(const std::vector<V3T2>& vertexData, const std::vector<unsigned int>& indexData) const {
+    std::vector<Triangle> triangles;
+
+    // Iterate over the index data to form triangles
+    for (size_t i = 0; i < indexData.size(); i += 3) {
+        vec3 v0 = vertexData[indexData[i]].v;   // Assuming V3T2 has a vec3 member 'v'
+        vec3 v1 = vertexData[indexData[i + 1]].v;
+        vec3 v2 = vertexData[indexData[i + 2]].v;
+
+        triangles.push_back(Triangle(v0, v1, v2));
+    }
+
+    return triangles;
 }
 
 Mesh::~Mesh() {

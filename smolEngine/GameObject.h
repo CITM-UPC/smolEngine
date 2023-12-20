@@ -3,6 +3,10 @@
 #include "GraphicObject.h"
 #include "Defs.h"
 #include "Mesh.h"
+#include "Ray.h"
+#include "glmath.h"
+#include "Triangle.h"
+#include "Color.h"
 
 class GameObject
 {
@@ -20,6 +24,15 @@ public:
 	void Rotate(double rads, const dvec3& axis);
 
 	const char* getName() { return name.c_str(); }
+	unsigned int getID() const { return id; }
+	bool GetSelected() { return isSelected; }
+	BoundingBox GetBoundingBox() { return boundingBox; }
+	void SetSelected(bool selected) { 
+		isSelected = selected;
+	}
+
+	bool Intersects(const Ray& ray, float& outDistance);
+	bool RayIntersectsTriangle(const Ray& ray, const Triangle& triangle, float& outDistance);
 
 	/*void generateId()
 	{
@@ -33,9 +46,14 @@ public:
 
 private:
 
-	std::string name;
+	std::vector <BoundingBox> dividedMesh;
+	BoundingBox boundingBox; 
 
+	unsigned int id;
+
+	std::string name;
 	std::shared_ptr<GraphicObject> root;
+	bool isSelected = false;
 
 };
 

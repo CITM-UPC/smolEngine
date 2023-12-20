@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include <vector>
 #include "imgui_impl_sdl2.h"
 
 #define MAX_MOUSE_BUTTONS 5
@@ -22,6 +23,13 @@ enum KEY_STATE
 	KEY_UP
 };
 
+class IInputObserver {
+public:
+	virtual void OnLeftMouseClick(int x, int y) = 0;
+	virtual void OnRightMouseClick(int x, int y) = 0;
+	virtual void OnMiddleMouseClick(int x, int y) = 0;
+};
+
 class Input : public Module
 {
 public:
@@ -33,7 +41,10 @@ public:
 	bool PreUpdate();
 	bool CleanUp();
 
+	void RegisterObserver(IInputObserver* observer);
+	void UnregisterObserver(IInputObserver* observer);
 
+	//getters
 	bool GetWindowEvent(EventWindow ev)
 	{
 		return windowEvents[ev];
@@ -83,4 +94,16 @@ private:
 	int mouse_z = 0;
 	int mouse_x_motion = 0;
 	int mouse_y_motion = 0;
+	int lastMouseX = 0;
+	int lastMouseY = 0;
+	bool isRightButtonDown = false;
+	bool isLeftButtonDown = false;
+	bool isMiddleButtonDown = false;
+
+	std::vector<IInputObserver*> observers;
+
+
+	// Method to notify observers
+	void NotifyMouseClick(int x, int y);
+	void NotifyMouseDrag(int dx, int dy);
 };

@@ -8,7 +8,17 @@
 #include "glmath.h"
 #include "Graphic.h"
 #include "Texture2D.h"
+#include "Triangle.h"
+#include "BoundingBox.h"
 
+
+class Mesh;
+
+struct PTRMeshWithTriangles
+{
+	std::vector<std::shared_ptr<Mesh>> mesh_ptrs;
+	std::vector<Triangle> triangles;
+};
 
 class Mesh : public Graphic
 {
@@ -16,7 +26,7 @@ public:
 	enum Formats { F_V3, F_V3C4, F_V3T2 };
 	struct V3 { vec3f v; };
 	struct V3C4 { vec3f v; vec4f c; };
-	struct V3T2 { vec3f v; vec2f t; };
+	struct V3T2 { vec3 v; vec2 t; };
 
 private:
 	const enum Formats _format;
@@ -26,11 +36,15 @@ private:
 
 	unsigned int _indexs_buffer_id = 0;
 	const unsigned int _numIndexs;
-
+ 
 public:
-	typedef std::shared_ptr<Mesh> Ptr;
 
-	static std::vector<Ptr> loadFromFile(const std::string& path);
+	
+	unsigned int mMaterialIndex;
+	typedef std::shared_ptr<Mesh> Ptr;
+	
+
+	static PTRMeshWithTriangles loadFromFile(const std::string& path);
 
 	Texture2D::Ptr texture;
 
@@ -39,8 +53,15 @@ public:
 	void draw();
 	~Mesh();
 
+
+	static std::vector<BoundingBox> CreateMeshSegments(size_t maxTrianglesPerSegment, std::vector<Triangle> triangles);
+	std::vector<Triangle> GetTriangles(const std::vector<V3T2>& vertexData, const std::vector<unsigned int>& indexData) const;
+
 private:
+	std::vector<BoundingBox> MeshSegments;
 	Mesh(const Mesh& cpy);
 	Mesh& operator=(const Mesh&);
 };
+
+
 

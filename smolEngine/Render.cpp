@@ -5,6 +5,9 @@
 #include <GL/glew.h>
 #include "SDL2/SDL_opengl.h"
 #include <IL/il.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 
 #include "CubeImmediateMode.h"
 #include "CubeVertexArray.h"
@@ -16,11 +19,14 @@ Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	vsync = VSYNC;
 	bg_color = { 0.1f, 0.1f, 0.1f, 1.0f };
+	
 }
 
 // Destructor
 Render::~Render()
-{}
+{
+	
+}
 
 bool Render::Init()
 {
@@ -31,7 +37,9 @@ bool Render::Init()
 // Called before the first frame
 bool Render::Start()
 {
+
 	//LOG("render start");
+	app->input->RegisterObserver(this);
 	gl_context = SDL_GL_CreateContext(app->win->window);
 	if (!gl_context)
 		return false;
@@ -91,8 +99,8 @@ bool Render::Start()
 
 	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	AddGameObject("Assets/BakerHouse.fbx", "Baker House");
-	AddGameObject("Assets/untitled.fbx", "unreal mannequin");
+	AddGameObject("Assets/Street environment_V01.fbx", "aa");
+	//AddGameObject("Assets/untitled.fbx", "unreal mannequin");
 
 
 	return true;
@@ -105,7 +113,9 @@ bool Render::PreUpdate()
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(app->camera->GetViewMatrix());
+	glLoadMatrixf(app->camera->GetViewMatrixf());
+
+	
 
 	// light 0 on cam pos
 	lights[0].SetPos(app->camera->Position.x, app->camera->Position.y, app->camera->Position.z);
@@ -137,9 +147,90 @@ bool Render::PostUpdate()
 bool Render::CleanUp()
 {
 	LOG("Destroying SDL render");
-
+	app->input->UnregisterObserver(this);
 	SDL_GL_DeleteContext(gl_context);
 	return true;
+}
+
+
+//if mmouseclick esquerra, que chequei nomes la bounding box gran
+void Render::OnLeftMouseClick(int x, int y) {
+	HandleRaycast(x,y);
+}
+
+void Render::OnRightMouseClick(int x, int y) {
+}
+
+void Render::OnMiddleMouseClick(int x, int y) {
+}
+
+//raycast
+void Render::HandleRaycast(int mouseX, int mouseY) {
+	Ray ray = GenerateRayFromScreenCoordinates(mouseX, mouseY);
+	std::shared_ptr<GameObject> selectedObject = CheckRaycastIntersections(ray);
+
+	// Deselect the currently selected object, if any
+	if (currentSelectedObject) {
+		currentSelectedObject->SetSelected(false);
+	}
+
+	// Update the selection
+	if (selectedObject) {
+		selectedObject->SetSelected(true);
+		currentSelectedObject = selectedObject; // Update the currently selected object
+	}
+	else {
+		currentSelectedObject.reset(); // No object is selected
+	}
+}
+
+// Method to generate a ray from screen coordinates
+Ray Render::GenerateRayFromScreenCoordinates(int mouseX, int mouseY) {
+	//Convert screen coordinates to normalized device coordinates
+	float x = (2.0f * mouseX) / app->win->GetWindowWidth() - 1.0f;
+	float y = 1.0f - (2.0f * mouseY) / app->win->GetWindowHeight();
+	vec2 normalizedCoords(x, y);
+
+	//Convert normalized device coordinates to clip coordinates
+	vec4 clipCoords(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
+
+	//Convert clip coordinates to eye coordinates
+	vec4 eyeCoords = inverse(app->camera->GetProjectionMatrix()) * clipCoords;
+	eyeCoords = vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
+
+	//Convert eye coordinates to world coordinates
+	vec4 worldCoords = inverse(app->camera->GetViewMatrix()) * eyeCoords;
+	vec3 rayWorld(worldCoords.x, worldCoords.y, worldCoords.z);
+
+	//Create the ray
+	Ray ray(app->camera->Position, normalize(rayWorld));
+
+	return ray;
+}
+
+// Method to check for intersections with objects
+std::shared_ptr<GameObject> Render::CheckRaycastIntersections(const Ray& ray) {
+	std::shared_ptr<GameObject> closestHitObject = nullptr;
+	float closestDistance = std::numeric_limits<float>::max();
+
+	// Iterate over all objects and check for intersection with the ray
+	for (auto& object : objects) {
+
+		if (object->GetBoundingBox().Intersects(ray)) {
+			closestHitObject = object;
+			break;
+		}
+
+		float distance;
+		if (object->Intersects(ray, distance)) {
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestHitObject = object;
+			}
+		}
+	}
+
+	return closestHitObject;
 }
 
 void Render::DrawGameObjects()

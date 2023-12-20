@@ -1,13 +1,10 @@
 #include "HierarchyPanel.h"
-
 #include <imgui.h>
-
 #include "../smolEngine/Application.h"
 #include "../smolEngine/Render.h"
 #include "Editor.h"
 
-HierarchyPanel::HierarchyPanel(Editor* instance)
-	: Panel("Hierarchy", instance)
+HierarchyPanel::HierarchyPanel(Editor* instance) : Panel("Hierarchy", instance), selectedObjectId(-1) // Initialize selected object ID as -1 (none selected)
 {
 }
 
@@ -45,6 +42,7 @@ void HierarchyPanel::Draw()
 		ImGui::EndPopup();
 	}
 
+
 	if(ImGui::Button("+"))
 	{
 		app->render->AddGameObject("New Entity");
@@ -55,11 +53,19 @@ void HierarchyPanel::Draw()
 	for (auto const& object : app->render->objects)
 	{
 		ImGui::PushID(id++);
-		if (ImGui::Button(object->getName(), ImVec2(width, 20)))
+		if (ImGui::Selectable(object.get()->getName(), selectedObjectId == object.get()->getID(), ImGuiSelectableFlags_AllowDoubleClick))
 		{
+			// Handle object selection
+			selectedObjectId = object.get()->getID();
+			// You can perform further actions upon selection here
 		}
 		ImGui::PopID();
 	}
 
 	ImGui::End();
+}
+
+void HierarchyPanel::UpdateGameObjects(const std::vector<GameObject>& objects)
+{
+	gameObjects = objects; // Update the game objects displayed in the panel
 }

@@ -30,6 +30,11 @@ public:
 	// Retrive window size
 	void GetWindowSize(uint& width, uint& height) const;
 
+	//getters
+	uint GetWindowWidth() const { return width; };
+
+	uint GetWindowHeight() const { return height; };
+
 public:
 	// The window we'll be rendering to
 	SDL_Window* window;
