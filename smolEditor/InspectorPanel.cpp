@@ -52,13 +52,11 @@ void InspectorPanel::Draw()
 			ImGui::Text("Position");
 			ImGui::NextColumn();
 
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 10 });
 
 			ImVec2 buttonSize = { 20, 20 };
 
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
@@ -69,10 +67,11 @@ void InspectorPanel::Draw()
 
 
 			ImGui::SameLine();
-			ImGui::DragFloat("##X", &Position.x, 0.1f, 0.0f, 0.0f, "%.2f");
+			ImGui::DragFloat("##X", &Position.x, 0.1f, 0.0f, 0.0f, "%.1f");
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
 
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
@@ -83,10 +82,11 @@ void InspectorPanel::Draw()
 
 
 			ImGui::SameLine();
-			ImGui::DragFloat("##Y", &Position.y, 0.1f, 0.0f, 0.0f, "%.2f");
+			ImGui::DragFloat("##Y", &Position.y, 0.1f, 0.0f, 0.0f, "%.1f");
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
 
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
@@ -96,7 +96,7 @@ void InspectorPanel::Draw()
 			}
 
 			ImGui::SameLine();
-			ImGui::DragFloat("##Z", &Position.z, 0.1f, 0.0f, 0.0f, "%.2f");
+			ImGui::DragFloat("##Z", &Position.z, 0.1f, 0.0f, 0.0f, "%.1f");
 			ImGui::PopItemWidth();
 
 			ImGui::PopStyleVar();
@@ -115,9 +115,7 @@ void InspectorPanel::Draw()
 			ImGui::Text("Rotation");
 			ImGui::NextColumn();
 
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 10 });
 
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
@@ -130,11 +128,12 @@ void InspectorPanel::Draw()
 			}
 
 			ImGui::SameLine();
-			if (ImGui::DragFloat("##X", &Rotation.x, 0.1f, 0.0f, 0.0f, "%.2f"))
+			if (ImGui::DragFloat("##X", &Rotation.x, 0.01f, 0.0f, 0.0f, "%.1f"))
 				actualAxis = dvec3(1, 0, 0);
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
 
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
@@ -146,11 +145,12 @@ void InspectorPanel::Draw()
 
 
 			ImGui::SameLine();
-			if(ImGui::DragFloat("##Y", &Rotation.y, 0.1f, 0.0f, 0.0f, "%.2f"))
+			if(ImGui::DragFloat("##Y", &Rotation.y, 0.01f, 0.0f, 0.0f, "%.1f"))
 				actualAxis = dvec3(0, 1, 0);
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
 
+			ImGui::PushItemWidth(100.0f);
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
@@ -161,7 +161,7 @@ void InspectorPanel::Draw()
 			}
 
 			ImGui::SameLine();
-			if(ImGui::DragFloat("##Z", &Rotation.z, 0.1f, 0.0f, 0.0f, "%.2f"))
+			if(ImGui::DragFloat("##Z", &Rotation.z, 0.01f, .0f, 1.0f, "%.1f"))
 				actualAxis = dvec3(0, 0, 1);
 			ImGui::PopItemWidth();
 
@@ -172,66 +172,66 @@ void InspectorPanel::Draw()
 			ImGui::PopID();
 			ImGui::PopID();
 
-			// SCALE
-			ImGui::PushID("Scale");
-			ImGui::PushID("Scale");
+			//// SCALE
+			//ImGui::PushID("Scale");
+			//ImGui::PushID("Scale");
 
-			ImGui::Columns(2);
-			ImGui::SetColumnWidth(0, 100.0f);
-			ImGui::Text("Scale");
-			ImGui::NextColumn();
+			//ImGui::Columns(2);
+			//ImGui::SetColumnWidth(0, 100.0f);
+			//ImGui::Text("Scale");
+			//ImGui::NextColumn();
 
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushItemWidth(ImGui::CalcItemWidth());
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 10 });
+			//ImGui::PushItemWidth(ImGui::CalcItemWidth());
+			//ImGui::PushItemWidth(ImGui::CalcItemWidth());
+			//ImGui::PushItemWidth(ImGui::CalcItemWidth());
+			//ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 10 });
 
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-			if (ImGui::Button("X", buttonSize))
-			{
-				Scale.x = 1;
-			}
-
-
-			ImGui::SameLine();
-			ImGui::DragFloat("##X", &Scale.x, 0.1f, 0.0f, 0.0f, "%.2f");
-			ImGui::PopItemWidth();
-			ImGui::SameLine();
-
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-			if (ImGui::Button("Y", buttonSize))
-			{
-				Scale.y = 1;
-			}
+			//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+			//if (ImGui::Button("X", buttonSize))
+			//{
+			//	Scale.x = 1;
+			//}
 
 
-			ImGui::SameLine();
-			ImGui::DragFloat("##Y", &Scale.y, 0.1f, 0.0f, 0.0f, "%.2f");
-			ImGui::PopItemWidth();
-			ImGui::SameLine();
+			//ImGui::SameLine();
+			//ImGui::DragFloat("##X", &Scale.x, 0.001f, 0.0f, 0.0f, "%.1f");
+			//ImGui::PopItemWidth();
+			//ImGui::SameLine();
 
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-			if (ImGui::Button("Z", buttonSize))
-			{
-				Scale.z = 1;
-			}
+			//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+			//if (ImGui::Button("Y", buttonSize))
+			//{
+			//	Scale.y = 1;
+			//}
 
-			ImGui::SameLine();
-			ImGui::DragFloat("##Z", &Scale.z, 0.1f, 0.0f, 0.0f, "%.2f");
-			ImGui::PopItemWidth();
 
-			ImGui::PopStyleVar();
+			//ImGui::SameLine();
+			//ImGui::DragFloat("##Y", &Scale.y, 0.001f, 0.0f, 0.0f, "%.1f");
+			//ImGui::PopItemWidth();
+			//ImGui::SameLine();
 
-			ImGui::Columns(1);
+			//ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
+			//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+			//if (ImGui::Button("Z", buttonSize))
+			//{
+			//	Scale.z = 1;
+			//}
 
-			ImGui::PopID();
-			ImGui::PopID();
+			//ImGui::SameLine();
+			//ImGui::DragFloat("##Z", &Scale.z, 0.001f, 0.0f, 0.0f, "%.1f");
+			//ImGui::PopItemWidth();
+
+			//ImGui::PopStyleVar();
+
+			//ImGui::Columns(1);
+
+			//ImGui::PopID();
+			//ImGui::PopID();
 
 
 
@@ -254,11 +254,11 @@ void InspectorPanel::Draw()
 			if (Rotation.z != oldRotation.z)
 			{
 				selectedObject->Rotate(Rotation.z, actualAxis);
-			}
+			}/*
 			if (Scale != oldScale)
 			{
 				selectedObject->Scale(Scale);
-			}
+			}*/
         }
 
         int triangles = selectedObject->GetBoundingBox().triangles.size();
