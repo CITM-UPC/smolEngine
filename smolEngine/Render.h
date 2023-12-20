@@ -6,6 +6,8 @@
 #include "imgui.h"
 #include "Light.h"
 #include "Defs.h"
+#include "Ray.h"
+#include "Input.h"
 #include "SDL2/SDL.h"
 #include <glm/gtc/type_ptr.hpp>
 
@@ -13,7 +15,7 @@
 
 #define MAX_LIGHTS 8
 
-class Render : public Module
+class Render : public Module, public IInputObserver
 {
 public:
 
@@ -33,6 +35,12 @@ public:
 	bool Update();
 	bool PostUpdate();
 
+	//raycast
+	void HandleRaycast(int mouseX, int mouseY);
+	Ray GenerateRayFromScreenCoordinates(int mouseX, int mouseY);
+	std::shared_ptr<GameObject> CheckRaycastIntersections(const Ray& ray);
+	std::shared_ptr<GameObject> CheckRaycastForSelection(const Ray& ray);
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -49,6 +57,17 @@ public:
 	void drawQuadFaceTriangles(glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 d);
 	void cubeTest();
 
+	//observer
+	void OnLeftMouseClick(int x, int y) override;
+	void OnRightMouseClick(int x, int y) override;
+	void OnMiddleMouseClick(int x, int y) override;
+
+	std::shared_ptr<GameObject> GetCurrentSelectedObject() const{
+		return currentSelectedObject;
+	}
+
+
+
 private:
 	void drawAxis();
 
@@ -57,9 +76,10 @@ private:
 public:
 	Light lights[MAX_LIGHTS];
 
+	std::shared_ptr<GameObject> currentSelectedObject;
+
 	std::list<std::shared_ptr<GameObject>> objects;
 
-	Camera camera;
 	ImVec4 bg_color;
 	bool vsync = 0;
 	SDL_GLContext gl_context = NULL;

@@ -98,6 +98,33 @@ bool Input::PreUpdate()
 			mouse_z = e.wheel.y;
 			break;
 
+		case SDL_MOUSEBUTTONDOWN:
+			if (GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+				isLeftButtonDown = true;
+			}
+			if (GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+				isRightButtonDown = true;
+			}
+			if (GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_DOWN) {
+				isMiddleButtonDown = true;
+			}
+			NotifyMouseClick(mouse_x, mouse_y);
+			
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			if (GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP) {
+				isLeftButtonDown = false;
+			}
+			if (GetMouseButton(SDL_BUTTON_RIGHT) == KEY_UP) {
+				isRightButtonDown = false;
+			}
+			if (GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_UP) {
+				isMiddleButtonDown = false;
+			}
+			
+			break;
+
 		case SDL_MOUSEMOTION:
 			//divide by window_size in case window resizable
 			mouse_x = e.motion.x;
@@ -105,6 +132,10 @@ bool Input::PreUpdate()
 
 			mouse_x_motion = e.motion.xrel;
 			mouse_y_motion = e.motion.yrel;
+
+			if (isRightButtonDown || isLeftButtonDown || isMiddleButtonDown) {
+				NotifyMouseDrag(mouse_x, mouse_y);
+			}
 			break;
 
 		case SDL_QUIT:
@@ -146,10 +177,63 @@ bool Input::PreUpdate()
 		}
 	}
 
+	// Update the last mouse position at the end of each frame
+	lastMouseX = mouse_x;
+	lastMouseY = mouse_y;
+
 	if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return false;
 
 	return true;
+}
+
+//observer
+void Input::NotifyMouseClick(int x, int y) {
+
+	// Handle left mouse click
+	if (GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		for (auto* observer : observers) {
+			observer->OnLeftMouseClick(x, y);
+		}
+	}
+
+	// Handle right mouse click
+	if (GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN) {
+		for (auto* observer : observers) {
+			observer->OnRightMouseClick(x, y);
+		}
+	}
+
+	// Handle middle mouse click (mouse wheel button)
+	if (GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_DOWN) {
+		for (auto* observer : observers) {
+			observer->OnMiddleMouseClick(x, y);
+		}
+	}
+}
+
+void Input::NotifyMouseDrag(int x, int y) {
+	// Handle right mouse button hold for dragging
+	if (isRightButtonDown) {
+		// Calculate the deltas
+		int dx = mouse_x - lastMouseX;
+		int dy = mouse_y - lastMouseY;
+		for (auto* observer : observers) {
+			// Cast the observer to the Camera type or use a dynamic_cast if needed
+			Camera* cameraObserver = dynamic_cast<Camera*>(observer);
+			if (cameraObserver) {
+				cameraObserver->OnMouseRightDrag(dx, dy);
+			}
+		}
+	}
+}
+
+void Input::RegisterObserver(IInputObserver* observer) {
+	observers.push_back(observer);
+}
+
+void Input::UnregisterObserver(IInputObserver* observer) {
+	observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
 // Called before quitting

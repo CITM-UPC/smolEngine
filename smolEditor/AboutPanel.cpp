@@ -19,7 +19,7 @@ void AboutPanel::Draw()
 	ImGui::Separator();
 	ImGui::Text("smolEngine version: %s", app->GetVersion());
 	ImGui::Text("Small engine for small games");
-	ImGui::Text("By Alex Delgado & Pau Vives");
+	ImGui::Text("By Alex Delgado & Pau Vivas");
 	ImGui::Separator();
 	ImGui::Text("3rd party libraries used:");
 	ImGui::BulletText("SDL");

@@ -42,9 +42,6 @@
     <ClInclude Include="CubeVertexBuffer.h">
       <Filter>3D Objects\Cube</Filter>
     </ClInclude>
-    <ClInclude Include="CubeWireframeIVBO.h">
-      <Filter>3D Objects\Cube</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicObject.h">
       <Filter>3D Objects</Filter>
     </ClInclude>
@@ -98,6 +95,14 @@
     </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Ray.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="BVHNode.h" />
+    <ClInclude Include="CubeWireframeIVBO.h">
+      <Filter>3D Objects\Cube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,5 +169,10 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Core\Modules\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="BVHNode.cpp" />
   </ItemGroup>
 </Project>

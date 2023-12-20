@@ -5,6 +5,7 @@
 #include "Panel.h"
 #include "AboutPanel.h"
 #include "HierarchyPanel.h"
+#include "InspectorPanel.h"
 
 class Editor : public Module
 {
@@ -31,6 +32,7 @@ private:
 
 	std::unique_ptr<Panel> about;
 	std::unique_ptr<Panel> hierarchy;
+	std::unique_ptr<Panel> inspector;
 
 	std::list<Panel*> panels;
 };

@@ -13,6 +13,7 @@ public:
 	void SetActive(bool enabled);
 	void SwitchActive();
 	bool IsActive() const;
+	virtual void Start() {}
 	virtual void Draw() = 0;
 	virtual void Update(){}
 	const char* GetName() const { return name; }
