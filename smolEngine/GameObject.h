@@ -22,6 +22,8 @@ public:
 	void Draw();
 
 	void Rotate(double rads, const dvec3& axis);
+	void Move(const dvec3& displacement);
+	void Scale(const dvec3& s);
 
 	const char* getName() { return name.c_str(); }
 	unsigned int getID() const { return id; }

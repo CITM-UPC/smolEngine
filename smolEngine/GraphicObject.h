@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "glmath.h"
-#include "Graphic.h"
+#include "Mesh.h"
 #include <glm/ext/matrix_transform.hpp>
 #include <list>
 #include <memory>
@@ -57,15 +57,19 @@ class GraphicObject : public Tree<GraphicObject>
 {
 private:
 	mat4 _transform;
-	std::shared_ptr<Graphic> _graphic;
+	std::shared_ptr<Mesh> _graphic;
 
 public:
 
 	GraphicObject();
-	GraphicObject(std::shared_ptr<Graphic> graphic);
-
+	GraphicObject(std::shared_ptr<Mesh> graphic);
+	
 	inline vec3& pos() { return (vec3&)(_transform[3]);  }
-	inline void rotate(double rads, const dvec3& axis) { _transform = glm::rotate(_transform, rads, axis); }
+	void move(const dvec3& displacement);
+	void rotate(double rads, const dvec3& axis);
+	void scale(const dvec3& s);
+
+	void setTransformation(mat4 m);
 
 	void paint() const;
 
