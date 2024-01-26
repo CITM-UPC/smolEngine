@@ -2,8 +2,8 @@
 #include <Windows.h>
 
 //memory management
-#include "Wwise/include/AK/SoundEngine/Common/AkMemoryMgr.h"
-#include "Wwise/include/AK/SoundEngine/Common/AkModule.h"
+#include "AK/SoundEngine/Common/AkMemoryMgr.h"
+#include "AK/SoundEngine/Common/AkModule.h"
 
 
 WwiseManager::WwiseManager() {

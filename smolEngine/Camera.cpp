@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Camera.h"
+#include <algorithm>
 
 Camera::Camera(bool start_enabled) : Module(start_enabled)
 {
