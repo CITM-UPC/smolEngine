@@ -21,11 +21,11 @@ bool WwiseManager::Initialize() {
 
 	if (AK::MemoryMgr::Init(&memSettings) == AK_Success)
 	{
-		SDL_Log("Created Memory manager");
+		//SDL_Log("Created Memory manager");
 	}
 	else
 	{
-		SDL_Log("Could not create memory manager");
+		//SDL_Log("Could not create memory manager");
 		return false;
 	}
 
@@ -35,11 +35,11 @@ bool WwiseManager::Initialize() {
 
 	if (AK::StreamMgr::Create(stmSettings))
 	{
-		SDL_Log("Streaming Manager created");
+		//SDL_Log("Streaming Manager created");
 	}
 	else
 	{
-		SDL_Log("Could not create the Streaming Manager");
+		//SDL_Log("Could not create the Streaming Manager");
 		return false;
 	}
 
@@ -49,11 +49,11 @@ bool WwiseManager::Initialize() {
 
 	if (g_lowLevelIO.Init(deviceSettings) == AK_Success)
 	{
-		SDL_Log("Created stream device and Low-Level I/O System");
+		//SDL_Log("Created stream device and Low-Level I/O System");
 	}
 	else
 	{
-		SDL_Log("Could not create the streaming device and Low-Level I/O system");
+		//SDL_Log("Could not create the streaming device and Low-Level I/O system");
 		return false;
 	}
 
@@ -65,11 +65,11 @@ bool WwiseManager::Initialize() {
 
 	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) == AK_Success)
 	{
-		SDL_Log("Sound Engine Initialized");
+		//SDL_Log("Sound Engine Initialized");
 	}
 	else
 	{
-		SDL_Log("Could not initialize Sound Engine");
+		//SDL_Log("Could not initialize Sound Engine");
 		return false;
 	}
 
@@ -80,11 +80,11 @@ bool WwiseManager::Initialize() {
 
 	if (AK::MusicEngine::Init(&musicInit) == AK_Success)
 	{
-		SDL_Log("Succes on initialize the Music Engine.");
+		//SDL_Log("Succes on initialize the Music Engine.");
 	}
 	else
 	{
-		SDL_Log("Could not initialize the Music Engine");
+		//SDL_Log("Could not initialize the Music Engine");
 		return false;
 	}
 
@@ -95,21 +95,21 @@ bool WwiseManager::Initialize() {
 	AkBankID bankID;
 	if (AK::SoundEngine::LoadBank(BANKNAME_INIT, bankID) == AK_Success)
 	{
-		SDL_Log("Init bank loaded");
+		//SDL_Log("Init bank loaded");
 	}
 	else
 	{
-		SDL_Log("Could not load init bank");
+		//SDL_Log("Could not load init bank");
 		return false;
 	}
 
 	if (AK::SoundEngine::LoadBank(BANKNAME_MANTELENGINE, bankID) == AK_Success)
 	{
-		SDL_Log("MantelEngine bank loaded");
+		//SDL_Log("MantelEngine bank loaded");
 	}
 	else
 	{
-		SDL_Log("Could not load MantelEngine bank");
+		//SDL_Log("Could not load MantelEngine bank");
 		return false;
 	}
 
@@ -121,11 +121,11 @@ bool WwiseManager::Initialize() {
 	AK::Comm::GetDefaultInitSettings(commSettings);
 	if (AK::Comm::Init(commSettings) == AK_Success)
 	{
-		SDL_Log("Succes on initialize communication.");
+		//SDL_Log("Succes on initialize communication.");
 	}
 	else
 	{
-		SDL_Log("Could not initialize communication");
+		//SDL_Log("Could not initialize communication");
 		return false;
 	}
 #endif // AK_OPTIMIZED
@@ -136,11 +136,11 @@ bool WwiseManager::Initialize() {
 
 	if (AK::SpatialAudio::Init(settings) == AK_Success)
 	{
-		SDL_Log("Succes on initialize the Spatial Audio");
+		//SDL_Log("Succes on initialize the Spatial Audio");
 	}
 	else
 	{
-		SDL_Log("Could not initialize the Spatial Audio.");
+		//SDL_Log("Could not initialize the Spatial Audio.");
 		return false;
 	}
 
@@ -154,7 +154,7 @@ bool WwiseManager::LoadBank(const std::string bankName) {
 
 	if (result != AK_Success) {
 
-		SDL_Log("Failed to load bank %s, error: %d", bankName, result);
+		//SDL_Log("Failed to load bank %s, error: %d", bankName, result);
 	}
 
 	return result == AK_Success;

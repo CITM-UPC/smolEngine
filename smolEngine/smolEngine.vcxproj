@@ -110,6 +110,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vcpkg\installed\x64-windows\include\;$(SolutionDir)smolAuidoEngine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -117,8 +118,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>call "$(SolutionDir)\vcpkg\bootstrap-vcpkg.bat"
-"$(SolutionDir)\vcpkg\vcpkg.exe" install opengl glew glm devil[libjpeg,libpng] assimp --recurse --triplet x64-windows</Command>
+      <Command>call "$(SolutionDir)vcpkg\bootstrap-vcpkg.bat"
+"$(SolutionDir)vcpkg\vcpkg.exe" install opengl glew glm devil[libjpeg,libpng] assimp --recurse --triplet x64-windows
+copy "$(SolutionDir)vcpkg\installed\x64-windows\bin\*.*" "$(OutDir)"</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>OpenGL32.lib;GLU32.lib;DevIL.lib;assimp-vc143-mt.lib;CommunicationCentral.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;AkAudioInputSource.lib;ws2_32.lib</AdditionalDependencies>
