@@ -10,6 +10,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "Camera.h"
+#include "Audio.h"
 
 namespace Timer
 {
@@ -79,6 +80,7 @@ public:
 	std::unique_ptr<Input> input;
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<ImguiEnabler> imgui;
+	std::unique_ptr<Audio> audio;
 
 
 private:

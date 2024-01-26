@@ -1,0 +1,12 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1243575512	Set_MusicBlend			\Default Work Unit\Set_MusicBlend	
+	3409648181	Play_Song2			\Default Work Unit\Play_Song2	
+	3409648182	Play_Song1			\Default Work Unit\Play_Song1	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	4162017283	MusicBlend			\Default Work Unit\MusicBlend	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	82914039	Song1	D:\Wwise\Projects\Engine\.cache\Windows\SFX\Song1_FBC78EF0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Song1		5935604
+	816900826	Song2	D:\Wwise\Projects\Engine\.cache\Windows\SFX\Song2_FBC78EF0.wem		\Actor-Mixer Hierarchy\Default Work Unit\Song2		6097360
+

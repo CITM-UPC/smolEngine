@@ -22,6 +22,9 @@
     <Filter Include="Core\Modules\Camera">
       <UniqueIdentifier>{5826ac65-d7f8-4200-afe4-7bc1e7bc257d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{22e7053a-ea92-48c8-99b2-465f3ac358c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphic.h">
@@ -104,6 +107,21 @@
     <ClInclude Include="CubeWireframeIVBO.h">
       <Filter>3D Objects\Cube</Filter>
     </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="WwiseEnabler.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Wwise\SDK\samples\SoundEngine\Win32\AkFileHelpers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Wwise\SDK\samples\SoundEngine\Win32\stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeImmediateMode.cpp">
@@ -174,5 +192,20 @@
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BVHNode.cpp" />
+    <ClCompile Include="Audio.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="WwiseEnabler.cpp">
+      <Filter>Core\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Wwise\SDK\samples\SoundEngine\Win32\AkDefaultIOHookDeferred.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Wwise\SDK\samples\SoundEngine\Win32\AkPlatformProfilerHooks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Wwise\SDK\samples\SoundEngine\Win32\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

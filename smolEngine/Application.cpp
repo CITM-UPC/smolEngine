@@ -12,12 +12,14 @@ Application::Application(int argc, char* args[]) : argc(argc), args(args)
 	camera = std::make_unique<Camera>(true);
 	render = std::make_unique<Render>(true);
 	imgui = std::make_unique<ImguiEnabler>(true);
+	audio = std::make_unique<Audio>(true);
 
 	// Ordered, render is the last to execute
 	AddModuleFront(render.get());
 	AddModuleFront(camera.get());
 	AddModuleFront(imgui.get());
 	AddModuleFront(input.get());
+	AddModuleFront(audio.get());
 	AddModuleFront(win.get());
 }
 

@@ -48,7 +48,7 @@ void GameObject::LoadMesh(const std::string& path)
 
     //sets the gameobject bounding box
     this->boundingBox.SetTriangleVector(temp.triangles);
-    this->boundingBox.CalculateBounds();
+    this->boundingBox.CalculateBounds(true);
 
 
 
