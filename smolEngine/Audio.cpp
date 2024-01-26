@@ -1,10 +1,5 @@
 #include "Audio.h"
 #include "Application.h"
-#include "AK/SoundEngine/Common/AkModule.h"
-#include "AK/SoundEngine/Common/AkSoundEngine.h" // Main sound engine
-#include "AK/SoundEngine/Common/AkMemoryMgr.h"    // Memory manager
-#include "AK/SoundEngine/Common/AkStreamMgrModule.h"    // Streaming manager
-#include "AK/SoundEngine/Common/IAkStreamMgr.h" 
 
 Audio::Audio(bool startEnabled) : Module(startEnabled)
 {

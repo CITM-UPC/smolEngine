@@ -110,9 +110,6 @@
     <ClInclude Include="Audio.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="WwiseEnabler.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeImmediateMode.cpp">
@@ -184,9 +181,6 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BVHNode.cpp" />
     <ClCompile Include="Audio.cpp">
-      <Filter>Core\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="WwiseEnabler.cpp">
       <Filter>Core\Modules</Filter>
     </ClCompile>
   </ItemGroup>
