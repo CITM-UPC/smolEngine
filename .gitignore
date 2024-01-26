@@ -27,7 +27,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Imgui debug files
 *.ini
