@@ -113,6 +113,9 @@
     <ClInclude Include="WwiseEnabler.h">
       <Filter>Core\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="WwiseUtils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CubeImmediateMode.cpp">

@@ -21,13 +21,13 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();
-	void PlayBackgroundMusic(const char* eventName);
+	//void PlayBackgroundMusic(std::string eventName);
 
 	// Called before quitting
 	bool CleanUp();
 private:
-	WwiseManager wwiseManager;
-
+	//uncomment
+	//WwiseManager wwiseManager;
 
 };
 

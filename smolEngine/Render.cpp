@@ -7,6 +7,7 @@
 #include <IL/il.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "WwiseUtils.h"
 
 
 #include "CubeImmediateMode.h"
@@ -99,9 +100,29 @@ bool Render::Start()
 
 	OnResize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	AddGameObject("Assets/Street environment_V01.fbx", "aa");
+	//comment
+	AddGameObject("Assets/Street environment_V01.fbx", "Street", false);
+	AddGameObject("Assets/Cube.fbx", "Sound_static_cube", false);
+	AddGameObject("Assets/Cube.fbx", "Sound_moving_cube", true);
+	AddGameObject("Background_music", false);
 	//AddGameObject("Assets/untitled.fbx", "unreal mannequin");
 
+	////uncomment
+	//AddGameObject("Assets/Cube.fbx", "Sound_static_cube", AK::EVENTS::PLAY_AMBIENCE);
+	//AddGameObject("Assets/Cube.fbx", "Sound_moving_cube", AK::EVENTS::PLAY_TALKING);
+	//AddGameObject("Background_music", AK::EVENTS::PLAY_SONG1);
+
+	dvec3 startPos = dvec3(0, 0, 0); // Posición inicial
+	dvec3 endPos = dvec3(10, 10, 10); // Posición final
+	float duration = 5.0f;
+	const char* name = "Sound_moving_cube";
+	for (auto const& object : objects)
+	{	
+		if (object.get()->GetStaticObject()) {
+			object.get()->StartMoving(startPos, endPos, duration);
+		}
+		
+	}
 
 	return true;
 }
@@ -128,6 +149,11 @@ bool Render::PreUpdate()
 
 bool Render::Update()
 {
+	for (auto const& object : objects)
+	{
+		object->Update();
+	}
+
 	return true;
 }
 
@@ -240,10 +266,42 @@ void Render::DrawGameObjects()
 	}
 }
 
-void Render::AddGameObject(const std::string& path, const std::string& n)
+void Render::AddGameObject()
 {
 	std::shared_ptr<GameObject> object;
-	object = std::make_shared<GameObject>(path, n);
+	object = std::make_shared<GameObject>();
+
+	objects.push_back(object);
+}
+
+//uncomment
+//void Render::AddGameObject(const std::string& path, const std::string& n, AkUniqueID soundEventID, bool StaticObject) 
+//{
+//	std::shared_ptr<GameObject> object = std::make_shared<GameObject>(path, n, soundEventID, StaticObject);
+//
+//	objects.push_back(object);
+//}
+//
+//void Render::AddGameObject(const std::string& n, AkUniqueID soundEventID, bool StaticObject)
+//{
+//	std::shared_ptr<GameObject> object = std::make_shared<GameObject>(n, soundEventID, StaticObject);
+//
+//	objects.push_back(object);
+//}
+
+//ucomment
+void Render::AddGameObject(const std::string& path, const std::string& n, bool StaticObject)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(path, n, StaticObject);
+
+	objects.push_back(object);
+}
+
+void Render::AddGameObject(const std::string& n, bool StaticObject)
+{
+	std::shared_ptr<GameObject> object;
+	object = std::make_shared<GameObject>(n, StaticObject);
 
 	objects.push_back(object);
 }
@@ -252,14 +310,6 @@ void Render::AddGameObject(const std::string& n)
 {
 	std::shared_ptr<GameObject> object;
 	object = std::make_shared<GameObject>(n);
-
-	objects.push_back(object);
-}
-
-void Render::AddGameObject()
-{
-	std::shared_ptr<GameObject> object;
-	object = std::make_shared<GameObject>();
 
 	objects.push_back(object);
 }

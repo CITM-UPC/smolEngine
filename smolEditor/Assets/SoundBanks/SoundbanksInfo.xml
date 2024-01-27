@@ -193,6 +193,32 @@
 				<GameParameter Id="4162017283" Name="MusicBlend"/>
 			</GameParameters>
 		</SoundBank>
+		<SoundBank Id="3786144797" Type="User" Language="SFX" Hash="{D73DF1C5-1D11-EC76-998B-AC365933FFB8}">
+			<ShortName>Objects_soundBank</ShortName>
+			<Path>Objects_soundBank.bnk</Path>
+			<Media>
+				<File Id="65071552" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>talking.wav</ShortName>
+					<CachePath>SFX/talking_818F3B66.wem</CachePath>
+				</File>
+				<File Id="670001299" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Ambience.wav</ShortName>
+					<CachePath>SFX/Ambience_818F3B66.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="278617630" Name="Play_Ambience">
+					<MediaRefs>
+						<MediaRef Id="670001299"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1581144632" Name="Play_talking">
+					<MediaRefs>
+						<MediaRef Id="65071552"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E06EE522-1EA8-7855-C4EA-030C14BE344D}</FileHash>
+	<FileHash>{3F9799FB-26A9-F860-349E-B31152BA223E}</FileHash>
 </SoundBanksInfo>

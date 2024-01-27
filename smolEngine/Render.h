@@ -11,6 +11,7 @@
 #include "SDL2/SDL.h"
 #include <glm/gtc/type_ptr.hpp>
 
+
 #include "GameObject.h"
 
 #define MAX_LIGHTS 8
@@ -46,9 +47,17 @@ public:
 
 	void DrawGameObjects();
 
-	void AddGameObject(const std::string& path, const std::string& n);
-	void AddGameObject(const std::string& n);
+
 	void AddGameObject();
+	//uncomment
+	//void AddGameObject(const std::string& path, const std::string& n, AkUniqueID soundEventID = AK_INVALID_UNIQUE_ID, bool StaticObject);
+	//void AddGameObject(const std::string& n, AkUniqueID soundEventID = AK_INVALID_UNIQUE_ID, bool StaticObject);
+
+	//comment
+	void AddGameObject(const std::string& path, const std::string& n, bool StaticObject);
+	void AddGameObject(const std::string& n, bool StaticObject);
+	void AddGameObject(const std::string& n);
+
 
 	void SetBackgroundColor(ImVec4 color);
 	void OnResize(int width, int height);
