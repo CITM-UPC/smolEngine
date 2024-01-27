@@ -196,7 +196,7 @@ std::vector<BoundingBox> Mesh::CreateMeshSegments(size_t maxTrianglesPerSegment,
 
         if (triangleCount >= maxTrianglesPerSegment) {
             // Calculate the bounds of the current segment's bounding box
-            currentSegment.CalculateBounds();
+            currentSegment.CalculateBounds(false);
             segments.push_back(currentSegment);
 
             // Reset for the next segment
@@ -207,7 +207,7 @@ std::vector<BoundingBox> Mesh::CreateMeshSegments(size_t maxTrianglesPerSegment,
 
     // Check for any remaining triangles in the last segment
     if (triangleCount > 0) {
-        currentSegment.CalculateBounds();
+        currentSegment.CalculateBounds(false);
         segments.push_back(currentSegment);
     }
 

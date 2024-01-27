@@ -13,7 +13,7 @@ public:
     BoundingBox();
 
     void AddTriangle(const Triangle& triangle);
-    void CalculateBounds(); // Call this after adding all triangles
+    void CalculateBounds(bool rot); // Call this after adding all triangles
 
     const vec3& GetMin() const;
     const vec3& GetMax() const;
@@ -38,7 +38,9 @@ private:
     
     Color color = White;
 
-    void UpdateBounds(const Triangle& triangle);
+    glm::mat4 CreateRotationMatrix(float angleDegrees, const glm::vec3& axis);
+
+    void UpdateBounds(const Triangle& triangle, bool rot = false);
     
 };
 

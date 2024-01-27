@@ -64,7 +64,7 @@ public:
 	GraphicObject();
 	GraphicObject(std::shared_ptr<Mesh> graphic);
 	
-	inline vec3& pos() { return (vec3&)(_transform[3]);  }
+	inline dvec3& pos() { return (dvec3&)(_transform[3]);  }
 	void move(const dvec3& displacement);
 	void rotate(double rads, const dvec3& axis);
 	void scale(const dvec3& s);

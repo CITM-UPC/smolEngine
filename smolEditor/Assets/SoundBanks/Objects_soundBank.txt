@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	278617630	Play_Ambience			\Default Work Unit\Play_Ambience	
+	1581144632	Play_talking			\Default Work Unit\Play_talking	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	65071552	talking	D:\Wwise\Projects\Engine\.cache\Windows\SFX\talking_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\talking		6610272
+	670001299	Ambience	D:\Wwise\Projects\Engine\.cache\Windows\SFX\Ambience_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Ambience		6935136
+

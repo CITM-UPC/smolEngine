@@ -1,4 +1,10 @@
 #include "BoundingBox.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+glm::vec3 ConvertToGlmVec3(const vec3& customVec) {
+    return glm::vec3(customVec.x, customVec.y, customVec.z);
+}
 
 BoundingBox::BoundingBox() : minPoint(FLT_MAX), maxPoint(-FLT_MAX) {}
 
@@ -7,19 +13,29 @@ void BoundingBox::AddTriangle(const Triangle& triangle) {
     UpdateBounds(triangle);
 }
 
-void BoundingBox::CalculateBounds() {
+void BoundingBox::CalculateBounds(bool rot) {
     minPoint = vec3(FLT_MAX);
     maxPoint = vec3(-FLT_MAX);
 
     for (const auto& triangle : triangles) {
-        UpdateBounds(triangle);
+        UpdateBounds(triangle, rot);
     }
 }
 
-void BoundingBox::UpdateBounds(const Triangle& triangle) {
-    const vec3 vertices[] = { triangle.GetVertex0(), triangle.GetVertex1(), triangle.GetVertex2() };
+void BoundingBox::UpdateBounds(const Triangle& triangle, bool rot) {
+    glm::vec3 glmVertices[] = {
+        
+        static_cast<glm::vec3>(ConvertToGlmVec3(triangle.GetVertex0())),
+        static_cast<glm::vec3>(ConvertToGlmVec3(triangle.GetVertex0())),
+        static_cast<glm::vec3>(ConvertToGlmVec3(triangle.GetVertex0()))
+    };
 
-    for (const auto& vertex : vertices) {
+    for (auto& vertex : glmVertices) {
+        if (rot) {
+            glm::mat4 mat = CreateRotationMatrix(135 * 0.0174533f, glm::vec3(1.0f, 0.0f, 0.0f));
+            vertex = glm::vec3(mat * glm::vec4(vertex, 1.0f));
+        }
+
         minPoint.x = std::min(minPoint.x, vertex.x);
         minPoint.y = std::min(minPoint.y, vertex.y);
         minPoint.z = std::min(minPoint.z, vertex.z);
@@ -107,3 +123,9 @@ bool BoundingBox::Intersects(const Ray& ray) const {
 
     return true;
 }
+
+glm::mat4 BoundingBox::CreateRotationMatrix(float angleRadians, const glm::vec3& axis) {
+    return glm::rotate(glm::mat4(1.0f), angleRadians, axis);
+}
+
+
